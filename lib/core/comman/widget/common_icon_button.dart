@@ -62,7 +62,7 @@ class CommonIconButton extends StatelessWidget {
   Color _bgColor(bool isDisabled) {
     switch (variant) {
       case IconButtonVariant.filled:
-        return isDisabled ? Colors.grey : AppTheme.primary;
+        return isDisabled ? Colors.grey : AppTheme.primaryColor;
       case IconButtonVariant.ghost:
       case IconButtonVariant.outline:
         return Colors.transparent;
@@ -72,7 +72,7 @@ class CommonIconButton extends StatelessWidget {
   Border? _border(bool isDisabled) {
     if (variant == IconButtonVariant.outline) {
       return Border.all(
-        color: isDisabled ? Colors.grey : AppTheme.primary,
+        color: isDisabled ? Colors.grey : AppTheme.primaryColor,
       );
     }
     return null;
@@ -84,7 +84,7 @@ class CommonIconButton extends StatelessWidget {
         return Colors.white;
       case IconButtonVariant.ghost:
       case IconButtonVariant.outline:
-        return isDisabled ? Colors.grey : AppTheme.primary;
+        return isDisabled ? Colors.grey : AppTheme.primaryColor;
     }
   }
 }

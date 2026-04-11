@@ -1,47 +1,66 @@
-class RouteName {
-  static const splash = "splash";
-  static const login = "login";
-  static const signup = "signup";
-  static const home = "home";
-  static const product = "product";
-  static const cart = "cart";
+class Routes {
+  static const splashScreen = _RouteItem(
+    name: _RouteName.splashScreen,
+    path: _RoutePath.splash,
+  );
+
+  static const onBoardingScreen = _RouteItem(
+    name: _RouteName.loginScreen,
+    path: _RoutePath.loginScreen,
+  );
+  static const welcomeScreen = _RouteItem(
+    name: _RouteName.welcomeScreen,
+    path: _RoutePath.welcomeScreen,
+  );
+  static const loginScreen = _RouteItem(
+    name: _RouteName.loginScreen,
+    path: _RoutePath.loginScreen,
+  );
+
+  static const signupScreen = _RouteItem(
+    name: _RouteName.signupScreen,
+    path: _RoutePath.signupScreen,
+  );
+
+  static const homeScreen = _RouteItem(
+    name: _RouteName.homeScreen,
+    path: _RoutePath.homeScreen,
+  );
+
+  static const productScreen = _RouteItem(
+    name: _RouteName.productScreen,
+    path: _RoutePath.productScreen,
+  );
+
+  static const cartScreen = _RouteItem(
+    name: _RouteName.cartScreen,
+    path: _RoutePath.cartScreen,
+  );
 }
 
-class RoutePath {
+class _RouteName {
+  static const splashScreen = "splash";
+  static const welcomeScreen = "welcomeScreen";
+  static const loginScreen = "login";
+  static const signupScreen = "signup";
+  static const homeScreen = "homeScreen";
+  static const productScreen = "productScreen";
+  static const cartScreen = "cartScreen";
+}
+
+class _RoutePath {
   static const splash = "/";
-  static const login = "/login";
-  static const signup = "/signup";
-  static const home = "/home";
-  static const product = "/product";
-  static const cart = "/cart";
+  static const welcomeScreen = "/welcome-screen";
+  static const loginScreen = "/login";
+  static const signupScreen = "/signup";
+  static const homeScreen = "/home-screen";
+  static const productScreen = "/product-screen";
+  static const cartScreen = "/cart-screen";
 }
 
-class RouteItem {
+class _RouteItem {
   final String name;
   final String path;
 
-  const RouteItem({required this.name, required this.path});
-}
-
-class Routes {
-  static const splash = RouteItem(
-    name: RouteName.splash,
-    path: RoutePath.splash,
-  );
-
-  static const login = RouteItem(name: RouteName.login, path: RoutePath.login);
-
-  static const signup = RouteItem(
-    name: RouteName.signup,
-    path: RoutePath.signup,
-  );
-
-  static const home = RouteItem(name: RouteName.home, path: RoutePath.home);
-
-  static const product = RouteItem(
-    name: RouteName.product,
-    path: RoutePath.product,
-  );
-
-  static const cart = RouteItem(name: RouteName.cart, path: RoutePath.cart);
+  const _RouteItem({required this.name, required this.path});
 }

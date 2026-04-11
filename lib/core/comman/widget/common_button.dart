@@ -70,7 +70,7 @@ class CommonButton extends StatelessWidget {
   Color _bgColor(bool isDisabled) {
     switch (variant) {
       case ButtonVariant.primary:
-        return isDisabled ? Colors.grey : AppTheme.primary;
+        return isDisabled ? Colors.grey : AppTheme.primaryColor;
       case ButtonVariant.ghost:
       case ButtonVariant.outline:
         return Colors.transparent;
@@ -80,7 +80,7 @@ class CommonButton extends StatelessWidget {
   Border? _border(bool isDisabled) {
     if (variant == ButtonVariant.outline) {
       return Border.all(
-        color: isDisabled ? Colors.grey : AppTheme.primary,
+        color: isDisabled ? Colors.grey : AppTheme.primaryColor,
       );
     }
     return null;
@@ -101,7 +101,7 @@ class CommonButton extends StatelessWidget {
       case ButtonVariant.outline:
         return base.copyWith(
           color: textColor ??
-              (isDisabled ? Colors.grey : AppTheme.primary),
+              (isDisabled ? Colors.grey : AppTheme.primaryColor),
         );
     }
   }

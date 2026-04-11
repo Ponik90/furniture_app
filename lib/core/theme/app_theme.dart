@@ -3,14 +3,13 @@ import 'package:furniture_app/core/constant/app_constant.dart';
 
 class AppTheme {
   // 🎨 COLORS (ALL HERE)
-  static const Color primary = Color(0xFF3E64FF);
-  static const Color secondary = Color(0xFFFFA500);
+  static const Color primaryColor = Color(0xFF15272B);
+  static const Color blackColor = Color(0xFF000000);
+  static const Color whiteColor = Color(0xFFffffff);
 
   static const Color background = Color(0xFFF8F9FB);
   static const Color surface = Colors.white;
 
-  static const Color textPrimary = Color(0xFF1C1C1E);
-  static const Color textSecondary = Color(0xFF6E6E73);
 
   static const Color border = Color(0xFFE5E5EA);
   static const Color error = Colors.red;
@@ -21,42 +20,42 @@ class AppTheme {
       fontSize: 32,
       fontWeight: FontWeight.bold,
       fontFamily: AppConstant.fontFamily,
-      color: textPrimary,
+      color: blackColor,
     ),
 
     headlineLarge: TextStyle(
       fontSize: 24,
       fontWeight: FontWeight.w600,
       fontFamily: AppConstant.fontFamily,
-      color: textPrimary,
+      color: blackColor,
     ),
 
     titleLarge: TextStyle(
       fontSize: 20,
       fontWeight: FontWeight.w600,
       fontFamily: AppConstant.fontFamily,
-      color: textPrimary,
+      color: blackColor,
     ),
 
     bodyLarge: TextStyle(
       fontSize: 16,
       fontWeight: FontWeight.w400,
       fontFamily: AppConstant.fontFamily,
-      color: textPrimary,
+      color: blackColor,
     ),
 
     bodyMedium: TextStyle(
       fontSize: 14,
       fontWeight: FontWeight.w400,
       fontFamily: AppConstant.fontFamily,
-      color: textSecondary,
+      color: blackColor,
     ),
 
     bodySmall: TextStyle(
       fontSize: 12,
       fontWeight: FontWeight.w400,
       fontFamily: AppConstant.fontFamily,
-      color: textSecondary,
+      color: blackColor,
     ),
 
     labelLarge: TextStyle(
@@ -73,11 +72,10 @@ class AppTheme {
 
     scaffoldBackgroundColor: background,
 
-    primaryColor: primary,
+    primaryColor: primaryColor,
 
     colorScheme: const ColorScheme.light().copyWith(
-      primary: primary,
-      secondary: secondary,
+      primary: primaryColor,
       error: error,
       surface: surface,
     ),
@@ -87,7 +85,7 @@ class AppTheme {
     appBarTheme: const AppBarTheme(
       elevation: 0,
       backgroundColor: surface,
-      foregroundColor: textPrimary,
+      foregroundColor: blackColor,
     ),
 
     inputDecorationTheme: InputDecorationTheme(
@@ -103,7 +101,7 @@ class AppTheme {
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(10),
-        borderSide: const BorderSide(color: primary),
+        borderSide: const BorderSide(color: primaryColor),
       ),
       errorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(10),

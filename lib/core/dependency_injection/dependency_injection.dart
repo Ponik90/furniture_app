@@ -1,5 +1,5 @@
+import 'package:furniture_app/feature/on_boarding/presentation/provider/on_boarding_provider.dart';
 import 'package:get_it/get_it.dart';
-
 
 final GetIt getIt = GetIt.instance;
 
@@ -8,6 +8,7 @@ class DependencyInjection {
     await _initThirdParty();
     _initServices();
 
+    _initOnBoarding();
     _initAuth();
     // 👉 later:
     // _initProduct();
@@ -38,9 +39,13 @@ class DependencyInjection {
     // );
   }
 
-  // =========================
-  // 🔹 AUTH FEATURE
-  // =========================
+  //! 🔹 Onboarding FEATURE
+  static void _initOnBoarding() {
+    // 🎯 Provider
+    getIt.registerFactory<OnBoardingProvider>(() => OnBoardingProvider());
+  }
+
+  //! 🔹 AUTH FEATURE
   static void _initAuth() {
     // 📡 DataSource
     // getIt.registerLazySingleton<AuthRemoteDataSource>(
