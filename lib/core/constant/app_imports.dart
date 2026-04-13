@@ -2,3 +2,8 @@ export 'package:flutter/material.dart';
 export 'package:furniture_app/core/routes/app_routes.dart';
 export 'package:furniture_app/core/routes/route_name.dart';
 export 'package:go_router/go_router.dart';
+export'package:furniture_app/core/common/widget/common_button.dart';
+export'package:furniture_app/core/constant/app_string.dart';
+export'package:furniture_app/core/theme/app_theme.dart';
+export'package:gap/gap.dart';
+export'package:provider/provider.dart';

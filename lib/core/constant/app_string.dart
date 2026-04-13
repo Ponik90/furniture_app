@@ -1,4 +1,8 @@
 class AppString {
-  static const logo = "logo";
-  static const placeholder = "placeholder";
+  static const next = "next";
+  static const skip = "skip";
+
+  static const onboardingText1= "We Provide High Quality Products Just for You";
+  static const onboardingText2= "Your Satisfaction is Our  Number One Priority";
+  static const onboardingText3= "Let’s Fulfill Your House Needs With  Furniture Right  Now!";
 }

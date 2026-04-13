@@ -6,8 +6,9 @@ class AppTheme {
   static const Color primaryColor = Color(0xFF15272B);
   static const Color blackColor = Color(0xFF000000);
   static const Color whiteColor = Color(0xFFffffff);
+  static const Color greyColor = Color(0xFFD9D9D9);
+  static const Color greyLightColor = Color(0xFFDEE5E7);
 
-  static const Color background = Color(0xFFF8F9FB);
   static const Color surface = Colors.white;
 
 
@@ -68,9 +69,7 @@ class AppTheme {
 
   // 🌙 MAIN THEME
   static final ThemeData lightTheme = ThemeData(
-    useMaterial3: true,
-
-    scaffoldBackgroundColor: background,
+    scaffoldBackgroundColor: whiteColor,
 
     primaryColor: primaryColor,
 

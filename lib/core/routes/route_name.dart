@@ -1,12 +1,12 @@
 class Routes {
   static const splashScreen = _RouteItem(
     name: _RouteName.splashScreen,
-    path: _RoutePath.splash,
+    path: _RoutePath.splashScreen,
   );
 
   static const onBoardingScreen = _RouteItem(
-    name: _RouteName.loginScreen,
-    path: _RoutePath.loginScreen,
+    name: _RouteName.onBoardingScreen,
+    path: _RoutePath.onBoardingScreen,
   );
   static const welcomeScreen = _RouteItem(
     name: _RouteName.welcomeScreen,
@@ -39,20 +39,23 @@ class Routes {
 }
 
 class _RouteName {
-  static const splashScreen = "splash";
+  static const splashScreen = "splashScreen";
   static const welcomeScreen = "welcomeScreen";
-  static const loginScreen = "login";
-  static const signupScreen = "signup";
+  static const onBoardingScreen = "onBoardingScreen";
+  static const loginScreen = "loginScreen";
+  static const signupScreen = "signupScreen";
   static const homeScreen = "homeScreen";
   static const productScreen = "productScreen";
   static const cartScreen = "cartScreen";
 }
 
 class _RoutePath {
-  static const splash = "/";
+  static const splashScreen = "/";
   static const welcomeScreen = "/welcome-screen";
-  static const loginScreen = "/login";
-  static const signupScreen = "/signup";
+  static const onBoardingScreen = "/on-boarding-screen";
+
+  static const loginScreen = "/login-screen";
+  static const signupScreen = "/signup-screen";
   static const homeScreen = "/home-screen";
   static const productScreen = "/product-screen";
   static const cartScreen = "/cart-screen";
