@@ -1,4 +1,6 @@
 import 'dart:ui';
+import 'package:furniture_app/core/common/widget/common_social_login_button_widget.dart';
+import 'package:furniture_app/core/common/widget/continue_with_divider.dart';
 import 'package:furniture_app/core/constant/app_imports.dart';
 
 class WelcomeScreen extends StatefulWidget {
@@ -39,7 +41,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   spacing: 0,
                   children: [
                     Text(
-                      "Welcome to",
+                      AppString.welcomeTo,
                       style: textTheme.displaySmall?.copyWith(
                         fontWeight: .w400,
                         color: AppTheme.primaryColor,
@@ -65,7 +67,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     ),
                     Gap(10.h),
                     Text(
-                      "The best furniture e-commerce app of the country for your daily needs",
+                      AppString.theBestFurnitureApp,
                       style: textTheme.bodyMedium?.copyWith(
                         color: AppTheme.primaryColor,
                       ),
@@ -77,64 +79,22 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             ),
             Gap(30.h),
             CommonButton(
-              text: "Login",
+              text: AppString.login,
               onTap: () {
                 context.goNamed(Routes.loginScreen.name);
               },
             ),
             Gap(20.h),
             CommonButton(
-              text: "Create Account",
+              text: AppString.createAccount,
               onTap: () {
                 context.goNamed(Routes.signupScreen.name);
               },
             ),
             Gap(10.h),
-            Row(
-              spacing: 10.w,
-              children: [
-                Expanded(child: Divider(height: 1)),
-                Text("Or Continue With"),
-
-                Expanded(child: Divider(height: 1)),
-              ],
-            ),
+            ContinueWithDivider(),
             Gap(20.h),
-            Center(
-              child: Row(
-                mainAxisSize: .min,
-                mainAxisAlignment: .center,
-                crossAxisAlignment: .center,
-                spacing: 20.w,
-
-                children: [
-                  Container(
-                    padding: .all(10.r),
-                    decoration: BoxDecoration(
-                      color: AppTheme.greyColor,
-                      shape: .circle,
-                    ),
-                    child: SvgPicture.asset(
-                      AppAssets.googleIcon,
-                      height: 24.h,
-                      width: 24.h,
-                    ),
-                  ),
-                  Container(
-                    padding: .all(10.r),
-                    decoration: BoxDecoration(
-                      color: AppTheme.greyColor,
-                      shape: .circle,
-                    ),
-                    child: SvgPicture.asset(
-                      AppAssets.appleIcon,
-                      height: 24.h,
-                      width: 24.h,
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            CommonSocialLoginButtonWidget(),
           ],
         ),
       ),

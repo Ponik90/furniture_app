@@ -1,6 +1,4 @@
-import 'package:furniture_app/core/common/widget/common_text_form_field.dart';
-
-import '../../../../core/constant/app_imports.dart';
+import 'package:furniture_app/core/constant/app_imports.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -28,7 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
+      body: SingleChildScrollView(
         padding: EdgeInsets.only(
           top: MediaQuery.paddingOf(context).top + 20,
           right: 20.w,
@@ -42,7 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
             Gap(20.h),
             Center(
               child: Text(
-                'Login to your account',
+                AppString.loginToYourAccount,
                 style: Theme.of(
                   context,
                 ).textTheme.headlineMedium?.copyWith(fontSize: 30.sp),
@@ -53,7 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
             CommonTextFormField(
               controller: _emailController,
               focusNode: _emailFocus,
-              hintText: 'Email',
+              hintText: AppString.email,
               prefixIcon: SvgPicture.asset(
                 AppAssets.emailIcon,
                 height: 24.h,
@@ -66,7 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
               controller: _passwordController,
               focusNode: _passwordFocus,
               // obscureText: true,
-              hintText: 'Password',
+              hintText: AppString.password,
               suffixIcon: SvgPicture.asset(
                 AppAssets.eyeOffIcon,
                 height: 24.h,
@@ -80,22 +78,45 @@ class _LoginScreenState extends State<LoginScreen> {
                 fit: .scaleDown,
               ),
             ),
+            Gap(10.h),
+            GestureDetector(
+              onTap: () {},
+              child: Align(
+                alignment: .centerRight,
+                child: Text(
+                  AppString.forgetPassword,
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+              ),
+            ),
+
+            Gap(30.h),
+            CommonButton(
+              text: AppString.login,
+              onTap: () {
+                if (_formKey.currentState!.validate()) {
+                  context.goNamed(Routes.homeScreen.name);
+                }
+              },
+            ),
+            Gap(20.h),
+            ContinueWithDivider(),
+            Gap(20.h),
+            CommonSocialLoginButtonWidget(),
+
+            Gap(40.h),
+            GestureDetector(
+              onTap: () {
+                context.goNamed(Routes.signupScreen.name);
+              },
+              child: Center(
+                child: Text(
+                  AppString.dontHaveAccount,
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+              ),
+            ),
           ],
-        ),
-      ),
-      bottomNavigationBar: Padding(
-        padding: EdgeInsetsGeometry.only(
-          left: 20.w,
-          right: 20.w,
-          bottom: MediaQuery.paddingOf(context).bottom + 20,
-        ),
-        child: CommonButton(
-          text: 'Login',
-          onTap: () {
-            if (_formKey.currentState!.validate()) {
-              context.goNamed(Routes.homeScreen.name);
-            }
-          },
         ),
       ),
     );

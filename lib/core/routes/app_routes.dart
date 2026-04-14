@@ -6,6 +6,8 @@ import 'package:furniture_app/feature/on_boarding/presentation/view/splash_scree
 import 'package:furniture_app/feature/on_boarding/presentation/view/welcome_screen.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../feature/auth/presentation/view/signup_screen.dart';
+
 final rootNavigatorKey = GlobalKey<NavigatorState>();
 
 class AppRoutes {
@@ -39,7 +41,7 @@ class AppRoutes {
       GoRoute(
         name: Routes.signupScreen.name,
         path: Routes.signupScreen.path,
-        builder: (context, state) => LoginScreen(),
+        builder: (context, state) => SignupScreen(),
       ),
     ],
   );
