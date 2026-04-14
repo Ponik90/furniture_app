@@ -21,6 +21,22 @@ class Routes {
     name: _RouteName.signupScreen,
     path: _RoutePath.signupScreen,
   );
+  static const completeProfileScreen = _RouteItem(
+    name: _RouteName.completeProfileScreen,
+    path: _RoutePath.completeProfileScreen,
+  );
+  static const forgetPasswordScreen = _RouteItem(
+    name: _RouteName.forgetPasswordScreen,
+    path: _RoutePath.forgetPasswordScreen,
+  );
+  static const resetPasswordScreen = _RouteItem(
+    name: _RouteName.resetPasswordScreen,
+    path: _RoutePath.resetPasswordScreen,
+  );
+  static const confirmOtpScreen = _RouteItem(
+    name: _RouteName.confirmOtpScreen,
+    path: _RoutePath.confirmOtpScreen,
+  );
 
   static const homeScreen = _RouteItem(
     name: _RouteName.homeScreen,
@@ -39,11 +55,17 @@ class Routes {
 }
 
 class _RouteName {
+  //! auth flow
   static const splashScreen = "splashScreen";
   static const welcomeScreen = "welcomeScreen";
   static const onBoardingScreen = "onBoardingScreen";
   static const loginScreen = "loginScreen";
   static const signupScreen = "signupScreen";
+  static const completeProfileScreen = "completeProfileScreen";
+  static const forgetPasswordScreen = "forgetPasswordScreen";
+  static const resetPasswordScreen = "resetPasswordScreen";
+  static const confirmOtpScreen = "confirmOtpScreen";
+
   static const homeScreen = "homeScreen";
   static const productScreen = "productScreen";
   static const cartScreen = "cartScreen";
@@ -56,6 +78,12 @@ class _RoutePath {
 
   static const loginScreen = "/login-screen";
   static const signupScreen = "/signup-screen";
+
+  static const completeProfileScreen = "/complete-profile-screen";
+  static const forgetPasswordScreen = "/forget-password-screen";
+  static const resetPasswordScreen = "/reset-password-screen";
+  static const confirmOtpScreen = "/confirm-otp-screen";
+
   static const homeScreen = "/home-screen";
   static const productScreen = "/product-screen";
   static const cartScreen = "/cart-screen";

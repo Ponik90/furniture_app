@@ -84,7 +84,7 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Align(
                 alignment: .centerRight,
                 child: Text(
-                  AppString.forgetPassword,
+                  "${AppString.forgetPassword}?",
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
               ),

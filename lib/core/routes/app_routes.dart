@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:furniture_app/core/routes/route_name.dart';
+import 'package:furniture_app/feature/auth/presentation/view/complete_profile_screen.dart';
+import 'package:furniture_app/feature/auth/presentation/view/confirm_otp_screen.dart';
+import 'package:furniture_app/feature/auth/presentation/view/forget_password_screen.dart';
 import 'package:furniture_app/feature/auth/presentation/view/login_screen.dart';
+import 'package:furniture_app/feature/auth/presentation/view/reset_password_screen.dart';
 import 'package:furniture_app/feature/on_boarding/presentation/view/on_boarding_screen.dart';
 import 'package:furniture_app/feature/on_boarding/presentation/view/splash_screen.dart';
 import 'package:furniture_app/feature/on_boarding/presentation/view/welcome_screen.dart';
@@ -42,6 +46,26 @@ class AppRoutes {
         name: Routes.signupScreen.name,
         path: Routes.signupScreen.path,
         builder: (context, state) => SignupScreen(),
+      ),
+      GoRoute(
+        name: Routes.completeProfileScreen.name,
+        path: Routes.completeProfileScreen.path,
+        builder: (context, state) => CompleteProfileScreen(),
+      ),
+      GoRoute(
+        name: Routes.forgetPasswordScreen.name,
+        path: Routes.forgetPasswordScreen.path,
+        builder: (context, state) => ForgetPasswordScreen(),
+      ),
+      GoRoute(
+        name: Routes.resetPasswordScreen.name,
+        path: Routes.resetPasswordScreen.path,
+        builder: (context, state) => ResetPasswordScreen(),
+      ),
+      GoRoute(
+        name: Routes.confirmOtpScreen.name,
+        path: Routes.confirmOtpScreen.path,
+        builder: (context, state) => ConfirmOtpScreen(),
       ),
     ],
   );
