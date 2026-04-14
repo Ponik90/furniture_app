@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:furniture_app/core/constant/app_imports.dart';
 import 'package:furniture_app/feature/on_boarding/presentation/provider/on_boarding_provider.dart';
 
@@ -20,6 +21,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 width: MediaQuery.sizeOf(context).width,
                 height: MediaQuery.sizeOf(context).height / 1.5,
                 child: PageView.builder(
+                  controller: onBoardingProvider.pageController,
                   onPageChanged: (value) {
                     onBoardingProvider.changeCurrentIndex(value);
                   },
@@ -34,7 +36,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 ),
               ),
               Container(
-                padding: .all(20),
+                padding: .all(20.r),
                 decoration: BoxDecoration(color: Colors.white),
                 child: Column(
                   mainAxisSize: .min,
@@ -44,26 +46,26 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                           .currentIndex]['title'],
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                         color: AppTheme.blackColor,
-                        fontSize: 20,
+                        fontSize: 20.sp,
                         fontWeight: .w500,
                       ),
                       textAlign: .center,
                     ),
-                    Gap(24),
+                    Gap(24.h),
                     Row(
                       mainAxisSize: .min,
                       crossAxisAlignment: .center,
                       mainAxisAlignment: .center,
-                      spacing: 10,
+                      spacing: 10.w,
                       children: List.generate(
                         onBoardingProvider.onBoardingList.length,
                         (index) {
                           return AnimatedContainer(
                             duration: Duration(milliseconds: 400),
-                            height: 8,
+                            height: 8.h,
                             width: onBoardingProvider.currentIndex == index
-                                ? 24
-                                : 8,
+                                ? 24.w
+                                : 8.h,
                             decoration: BoxDecoration(
                               color: onBoardingProvider.currentIndex == index
                                   ? AppTheme.primaryColor
@@ -83,13 +85,13 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
       ),
       bottomNavigationBar: Padding(
         padding: .only(
-          top: 10,
-          left: 20,
-          right: 20,
+          top: 10.h,
+          left: 20.w,
+          right: 20.w,
           bottom: MediaQuery.paddingOf(context).bottom + 20,
         ),
         child: Row(
-          spacing: 20,
+          spacing: 20.w,
           children: [
             Expanded(
               child: CommonButton(
@@ -97,8 +99,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 onTap: () {
                   context.goNamed(Routes.welcomeScreen.name);
                 },
-                borderRadius: 16,
-                textSize: 16,
+                borderRadius: 16.r,
                 backgroundColor: AppTheme.greyLightColor,
                 textColor: AppTheme.blackColor,
               ),
@@ -113,8 +114,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   );
                   provider.nextPage();
                 },
-                borderRadius: 16,
-                textSize: 16,
+                borderRadius: 16.r,
               ),
             ),
           ],

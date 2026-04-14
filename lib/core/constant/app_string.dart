@@ -1,6 +1,6 @@
 class AppString {
-  static const next = "next";
-  static const skip = "skip";
+  static const next = "Next";
+  static const skip = "Skip";
 
   static const onboardingText1= "We Provide High Quality Products Just for You";
   static const onboardingText2= "Your Satisfaction is Our  Number One Priority";

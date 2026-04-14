@@ -1,4 +1,4 @@
 class AppConstant {
-  static const appName = "App name";
+  static const appName = "FURNITURE FURNITUPHY";
   static const fontFamily = "Poppins";
 }

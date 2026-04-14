@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:furniture_app/core/constant/app_constant.dart';
 
 class AppTheme {
@@ -11,59 +12,109 @@ class AppTheme {
 
   static const Color surface = Colors.white;
 
-
   static const Color border = Color(0xFFE5E5EA);
   static const Color error = Colors.red;
 
   // 🔤 TEXT THEME (WITH FONT)
   static final TextTheme textTheme = TextTheme(
+    // 🔥 DISPLAY
     displayLarge: TextStyle(
-      fontSize: 32,
-      fontWeight: FontWeight.bold,
+      fontSize: 32.sp,
+      fontWeight: FontWeight.w700,
+      fontFamily: AppConstant.fontFamily,
+      color: blackColor,
+    ),
+    displayMedium: TextStyle(
+      fontSize: 28.sp,
+      fontWeight: FontWeight.w700,
+      fontFamily: AppConstant.fontFamily,
+      color: blackColor,
+    ),
+    displaySmall: TextStyle(
+      fontSize: 24.sp,
+      fontWeight: FontWeight.w600,
       fontFamily: AppConstant.fontFamily,
       color: blackColor,
     ),
 
+    // 🔥 HEADLINE
     headlineLarge: TextStyle(
-      fontSize: 24,
+      fontSize: 22.sp,
+      fontWeight: FontWeight.w600,
+      fontFamily: AppConstant.fontFamily,
+      color: blackColor,
+    ),
+    headlineMedium: TextStyle(
+      fontSize: 20.sp,
+      fontWeight: FontWeight.w600,
+      fontFamily: AppConstant.fontFamily,
+      color: blackColor,
+    ),
+    headlineSmall: TextStyle(
+      fontSize: 18.sp,
       fontWeight: FontWeight.w600,
       fontFamily: AppConstant.fontFamily,
       color: blackColor,
     ),
 
+    // 🔥 TITLE
     titleLarge: TextStyle(
-      fontSize: 20,
+      fontSize: 18.sp,
       fontWeight: FontWeight.w600,
       fontFamily: AppConstant.fontFamily,
       color: blackColor,
     ),
-
-    bodyLarge: TextStyle(
-      fontSize: 16,
-      fontWeight: FontWeight.w400,
-      fontFamily: AppConstant.fontFamily,
-      color: blackColor,
-    ),
-
-    bodyMedium: TextStyle(
-      fontSize: 14,
-      fontWeight: FontWeight.w400,
-      fontFamily: AppConstant.fontFamily,
-      color: blackColor,
-    ),
-
-    bodySmall: TextStyle(
-      fontSize: 12,
-      fontWeight: FontWeight.w400,
-      fontFamily: AppConstant.fontFamily,
-      color: blackColor,
-    ),
-
-    labelLarge: TextStyle(
-      fontSize: 14,
+    titleMedium: TextStyle(
+      fontSize: 16.sp,
       fontWeight: FontWeight.w500,
       fontFamily: AppConstant.fontFamily,
+      color: blackColor,
+    ),
+    titleSmall: TextStyle(
+      fontSize: 14.sp,
+      fontWeight: FontWeight.w500,
+      fontFamily: AppConstant.fontFamily,
+      color: blackColor,
+    ),
+
+    // 🔥 BODY
+    bodyLarge: TextStyle(
+      fontSize: 16.sp,
+      fontWeight: FontWeight.w400,
+      fontFamily: AppConstant.fontFamily,
+      color: blackColor,
+    ),
+    bodyMedium: TextStyle(
+      fontSize: 14.sp,
+      fontWeight: FontWeight.w400,
+      fontFamily: AppConstant.fontFamily,
+      color: blackColor,
+    ),
+    bodySmall: TextStyle(
+      fontSize: 12.sp,
+      fontWeight: FontWeight.w400,
+      fontFamily: AppConstant.fontFamily,
+      color: blackColor,
+    ),
+
+    // 🔥 LABEL
+    labelLarge: TextStyle(
+      fontSize: 14.sp,
+      fontWeight: FontWeight.w600,
+      fontFamily: AppConstant.fontFamily,
       color: Colors.white,
+    ),
+    labelMedium: TextStyle(
+      fontSize: 12.sp,
+      fontWeight: FontWeight.w500,
+      fontFamily: AppConstant.fontFamily,
+      color: blackColor,
+    ),
+    labelSmall: TextStyle(
+      fontSize: 10.sp,
+      fontWeight: FontWeight.w500,
+      fontFamily: AppConstant.fontFamily,
+      color: blackColor,
     ),
   );
 
@@ -85,27 +136,6 @@ class AppTheme {
       elevation: 0,
       backgroundColor: surface,
       foregroundColor: blackColor,
-    ),
-
-    inputDecorationTheme: InputDecorationTheme(
-      filled: true,
-      fillColor: surface,
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(10),
-        borderSide: const BorderSide(color: border),
-      ),
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(10),
-        borderSide: const BorderSide(color: border),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(10),
-        borderSide: const BorderSide(color: primaryColor),
-      ),
-      errorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(10),
-        borderSide: const BorderSide(color: error),
-      ),
     ),
   );
 }

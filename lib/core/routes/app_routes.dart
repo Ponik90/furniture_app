@@ -36,6 +36,11 @@ class AppRoutes {
         path: Routes.loginScreen.path,
         builder: (context, state) => LoginScreen(),
       ),
+      GoRoute(
+        name: Routes.signupScreen.name,
+        path: Routes.signupScreen.path,
+        builder: (context, state) => LoginScreen(),
+      ),
     ],
   );
 }

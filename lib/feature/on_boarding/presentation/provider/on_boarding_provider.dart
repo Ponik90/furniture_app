@@ -1,7 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:furniture_app/core/constant/app_assets.dart';
 import 'package:furniture_app/core/constant/app_imports.dart';
-import 'package:furniture_app/core/constant/app_string.dart';
 
 class OnBoardingProvider extends ChangeNotifier {
   List<Map<String, dynamic>> onBoardingList = [
@@ -17,9 +14,16 @@ class OnBoardingProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  final pageController = PageController();
+
   void nextPage() {
     if (currentIndex < onBoardingList.length - 1) {
+      pageController.nextPage(
+        duration: Duration(milliseconds: 300),
+        curve: Curves.ease,
+      );
       currentIndex++;
+      notifyListeners();
     } else {
       final context = rootNavigatorKey.currentContext;
       if (context != null) {

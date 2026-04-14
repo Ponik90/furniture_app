@@ -1,4 +1,3 @@
-import 'package:furniture_app/core/constant/app_assets.dart';
 import 'package:furniture_app/core/constant/app_imports.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -23,8 +22,8 @@ class _SplashScreenState extends State<SplashScreen> {
       body: Center(
         child: Image.asset(
           AppAssets.appLogo,
-          height: 304,
-          width: 316,
+          height: 304.h,
+          width: 316.w,
           fit: .cover,
         ),
       ),

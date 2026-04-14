@@ -7,3 +7,6 @@ export'package:furniture_app/core/constant/app_string.dart';
 export'package:furniture_app/core/theme/app_theme.dart';
 export'package:gap/gap.dart';
 export'package:provider/provider.dart';
+export 'package:furniture_app/core/constant/app_assets.dart';
+export 'package:flutter_screenutil/flutter_screenutil.dart';
+export 'package:flutter_svg/flutter_svg.dart';

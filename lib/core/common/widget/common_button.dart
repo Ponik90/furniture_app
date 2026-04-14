@@ -107,7 +107,7 @@ class CommonButton extends StatelessWidget {
 
   // 🧱 DEFAULT STYLE FROM THEME
   TextStyle _getDefaultTextStyle(BuildContext context) {
-    final base = Theme.of(context).textTheme.labelLarge!;
+    final base = Theme.of(context).textTheme.bodyLarge!;
 
     switch (variant) {
       case ButtonVariant.primary:
