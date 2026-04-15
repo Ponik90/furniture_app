@@ -8,6 +8,7 @@ class AppAssets {
   static const onBoardingImage2= "${_images}on_boarding_2.png";
   static const onBoardingImage3= "${_images}on_boarding_3.png";
   static const loginVectorImage= "${_images}login_vector_image.png";
+  static const resetPasswordImage= "${_images}create_new_password_image.png";
 
 
   ///icons
@@ -18,6 +19,7 @@ class AppAssets {
   static const eyeOffIcon = "${_icons}eye_off_icon.svg";
   static const cameraIcon = "${_icons}camera_icon.svg";
   static const profileIcon = "${_icons}profile_icon.svg";
-  static const notificationIcon = "${_icons}notitication_icon.svg";
+  static const notificationIcon = "${_icons}notification_icon.svg";
+  static const backArrowIcon = "${_icons}back_arrow_icon.svg";
   static const searchIcon = "${_icons}search_icon.svg";
 }

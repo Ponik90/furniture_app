@@ -6,6 +6,7 @@ class CommonTextFormField extends StatelessWidget {
   final String hintText;
 
   final bool obscureText;
+  final bool? readOnly;
   final TextInputType? keyboardType;
 
   final Widget? prefixIcon;
@@ -13,6 +14,7 @@ class CommonTextFormField extends StatelessWidget {
 
   final String? Function(String?)? validator;
   final void Function(String)? onChanged;
+  final void Function()? onTap;
   final void Function(String)? onFieldSubmitted;
 
   final TextStyle? textStyle;
@@ -38,7 +40,7 @@ class CommonTextFormField extends StatelessWidget {
     this.hintStyle,
     this.fillColor,
     this.isFilled = true,
-    this.borderRadius = 30, this.focusNode,
+    this.borderRadius = 30, this.focusNode, this.readOnly, this.onTap,
   });
 
   @override
@@ -54,7 +56,8 @@ class CommonTextFormField extends StatelessWidget {
       style:
           textStyle ??
           Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: .w500),
-
+readOnly: readOnly ?? false,
+      onTap: onTap,
       decoration: InputDecoration(
         hintText: hintText,
         hintStyle:

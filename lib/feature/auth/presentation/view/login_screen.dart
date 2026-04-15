@@ -58,6 +58,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 width: 24.h,
                 fit: .scaleDown,
               ),
+              keyboardType: .emailAddress,
             ),
             Gap(20.h),
             CommonTextFormField(
@@ -77,10 +78,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 width: 24.h,
                 fit: .scaleDown,
               ),
+              keyboardType: .visiblePassword,
             ),
             Gap(10.h),
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                context.pushNamed(Routes.forgetPasswordScreen.name);
+              },
               child: Align(
                 alignment: .centerRight,
                 child: Text(

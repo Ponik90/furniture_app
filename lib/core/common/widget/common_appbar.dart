@@ -5,6 +5,7 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   final bool showTitle;
   final bool showLeading;
+  final bool showAction;
 
   final Widget? leading;
   final VoidCallback? onLeadingTap;
@@ -27,6 +28,7 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.onActionTap,
     this.backgroundColor,
     this.elevation = 0,
+    this.showAction = false,
   });
 
   @override
@@ -34,45 +36,59 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       backgroundColor: backgroundColor ?? Colors.white,
       elevation: elevation,
-      centerTitle: true,
-
+      centerTitle: false,
+      leadingWidth: 60.w,
       // 🔹 LEADING
       leading: showLeading
-          ? GestureDetector(
-              onTap:
-                  onLeadingTap ??
-                  () {
-                    Navigator.pop(context);
-                  },
-              child:
-                  leading ??
-                  const Icon(Icons.arrow_back_ios, color: Colors.black),
+          ? Padding(
+              padding: EdgeInsets.only(left: 20.w),
+              child: GestureDetector(
+                onTap:
+                    onLeadingTap ??
+                    () {
+                      context.pop();
+                    },
+                child:
+                    leading ??
+                    SvgPicture.asset(
+                      AppAssets.backArrowIcon,
+                      height: 24.h,
+                      width: 24.h,
+                    ),
+              ),
             )
           : null,
 
       // 🔹 TITLE
       title: showTitle
-          ? Text(title ?? "", style: Theme.of(context).textTheme.titleLarge)
+          ? Text(
+              title ?? "",
+              style: Theme.of(
+                context,
+              ).textTheme.headlineMedium?.copyWith(fontWeight: .w500),
+            )
           : null,
 
       // 🔥 ACTION (SMART LOGIC)
-      actions: [
-        GestureDetector(
-          onTap:
-              onActionTap ??
-              () {
-                context.pushNamed(Routes.homeScreen.name);
-              },
-          child: Padding(
-            padding: const EdgeInsets.only(right: 16),
-            child: SvgPicture.asset(
-              actionIcon ?? AppAssets.notificationIcon,
-              height: 24,
-              width: 24,
-            ),
-          ),
-        ),
-      ],
+      actions: showAction
+          ? [
+              GestureDetector(
+                onTap:
+                    onActionTap ??
+                    () {
+                      context.pushNamed(Routes.homeScreen.name);
+                    },
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 16),
+                  child: SvgPicture.asset(
+                    actionIcon ?? AppAssets.notificationIcon,
+                    height: 24,
+                    width: 24,
+                  ),
+                ),
+              ),
+            ]
+          : null,
     );
   }
 

@@ -1,3 +1,4 @@
+import 'package:furniture_app/feature/bottom_navigation_bar/presentation/provider/bottom_navigation_bar_provider.dart';
 import 'package:furniture_app/feature/on_boarding/presentation/provider/on_boarding_provider.dart';
 import 'package:get_it/get_it.dart';
 
@@ -9,6 +10,7 @@ class DependencyInjection {
     _initServices();
 
     _initOnBoarding();
+    _initBottomNavigation();
     _initAuth();
     // 👉 later:
     // _initProduct();
@@ -26,6 +28,19 @@ class DependencyInjection {
     // Firebase / HTTP / Dio etc.
   }
 
+  //! 🔹 Onboarding FEATURE
+  static void _initOnBoarding() {
+    // 🎯 Provider
+    getIt.registerFactory<OnBoardingProvider>(() => OnBoardingProvider());
+  } //! 🔹 Onboarding FEATURE
+
+  static void _initBottomNavigation() {
+    // 🎯 Provider
+    getIt.registerFactory<BottomNavigationBarProvider>(
+      () => BottomNavigationBarProvider(),
+    );
+  }
+
   // =========================
   // 🔹 CORE SERVICES
   // =========================
@@ -37,12 +52,6 @@ class DependencyInjection {
     // getIt.registerLazySingleton<FirebaseService>(
     //       () => FirebaseService(),
     // );
-  }
-
-  //! 🔹 Onboarding FEATURE
-  static void _initOnBoarding() {
-    // 🎯 Provider
-    getIt.registerFactory<OnBoardingProvider>(() => OnBoardingProvider());
   }
 
   //! 🔹 AUTH FEATURE

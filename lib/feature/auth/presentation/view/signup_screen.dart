@@ -58,6 +58,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 width: 24.h,
                 fit: .scaleDown,
               ),
+              keyboardType: .emailAddress,
             ),
             Gap(20.h),
             CommonTextFormField(
@@ -77,13 +78,14 @@ class _SignupScreenState extends State<SignupScreen> {
                 width: 24.h,
                 fit: .scaleDown,
               ),
+              keyboardType: .visiblePassword,
             ),
             Gap(30.h),
             CommonButton(
               text: AppString.signup,
               onTap: () {
                 if (_formKey.currentState!.validate()) {
-                  context.goNamed(Routes.homeScreen.name);
+                  context.goNamed(Routes.completeProfileScreen.name);
                 }
               },
             ),
