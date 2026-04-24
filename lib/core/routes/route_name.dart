@@ -51,6 +51,9 @@ class Routes {
   static const cartScreen = _RouteItem(
     name: _RouteName.cartScreen,
     path: _RoutePath.cartScreen,
+  );static const profileScreen = _RouteItem(
+    name: _RouteName.profileScreen,
+    path: _RoutePath.profileScreen,
   );
 }
 
@@ -69,6 +72,7 @@ class _RouteName {
   static const homeScreen = "homeScreen";
   static const productScreen = "productScreen";
   static const cartScreen = "cartScreen";
+  static const profileScreen = "profileScreen";
 }
 
 class _RoutePath {
@@ -79,14 +83,15 @@ class _RoutePath {
   static const loginScreen = "/login-screen";
   static const signupScreen = "/signup-screen";
 
-  static const completeProfileScreen = "/complete-profile-screen";
   static const forgetPasswordScreen = "/forget-password-screen";
   static const resetPasswordScreen = "/reset-password-screen";
   static const confirmOtpScreen = "/confirm-otp-screen";
+  static const completeProfileScreen = "/complete-profile-screen";
 
   static const homeScreen = "/home-screen";
   static const productScreen = "/product-screen";
   static const cartScreen = "/cart-screen";
+  static const profileScreen = "/profile-screen";
 }
 
 class _RouteItem {

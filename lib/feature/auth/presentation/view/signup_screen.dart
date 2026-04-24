@@ -84,9 +84,9 @@ class _SignupScreenState extends State<SignupScreen> {
             CommonButton(
               text: AppString.signup,
               onTap: () {
-                if (_formKey.currentState!.validate()) {
+                // if (_formKey.currentState!.validate()) {
                   context.goNamed(Routes.completeProfileScreen.name);
-                }
+                // }
               },
             ),
             Gap(20.h),

@@ -22,4 +22,9 @@ class AppAssets {
   static const notificationIcon = "${_icons}notification_icon.svg";
   static const backArrowIcon = "${_icons}back_arrow_icon.svg";
   static const searchIcon = "${_icons}search_icon.svg";
+  static const homeIcon = "${_icons}bottom_home_icon.svg";
+  static const homeFillIcon = "${_icons}bottom_home_fill_icon.svg";
+  static const cartIcon = "${_icons}bottom_cart_icon.svg";
+  static const orderIcon = "${_icons}bottom_order_icon.svg";
+  static const walletIcon = "${_icons}bottom_wallet_icon.svg";
 }

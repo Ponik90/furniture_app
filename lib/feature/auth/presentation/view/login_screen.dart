@@ -98,9 +98,9 @@ class _LoginScreenState extends State<LoginScreen> {
             CommonButton(
               text: AppString.login,
               onTap: () {
-                if (_formKey.currentState!.validate()) {
+                // if (_formKey.currentState!.validate()) {
                   context.goNamed(Routes.homeScreen.name);
-                }
+                // }
               },
             ),
             Gap(20.h),
