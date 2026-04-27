@@ -27,4 +27,12 @@ class AppAssets {
   static const cartIcon = "${_icons}bottom_cart_icon.svg";
   static const orderIcon = "${_icons}bottom_order_icon.svg";
   static const walletIcon = "${_icons}bottom_wallet_icon.svg";
+  static const chairIcon = "${_icons}chair_icon.svg";
+  static const lampIcon = "${_icons}lamp_icon.svg";
+  static const heartIcon = "${_icons}heart_icon.svg";
+  static const ratingIcon = "${_icons}rating_icon.svg";
+  static const sofaIcon = "${_icons}sofa_icon.svg";
+  static const tableIcon = "${_icons}table_icon.svg";
+  static const vaseIcon = "${_icons}vase_icon.svg";
+
 }

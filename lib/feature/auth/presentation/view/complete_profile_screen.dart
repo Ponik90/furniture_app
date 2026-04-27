@@ -36,16 +36,17 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                     Center(
                       child: SvgPicture.asset(
                         AppAssets.profileIcon,
-                        height: 50.h,
-                        width: 50.h,
+                        height: 60.h,
+                        width: 60.h,
                       ),
                     ),
-                    Align(
-                      alignment: .bottomRight,
+                    Positioned(
+                      right: 5,
+                      bottom: 0,
                       child: SvgPicture.asset(
                         AppAssets.cameraIcon,
-                        height: 20.h,
-                        width: 20.h,
+                        height: 24.h,
+                        width: 24.h,
                       ),
                     ),
                   ],
@@ -76,13 +77,13 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
               keyboardType: .number,
             ),
             Gap(20.h),
-            DropdownButton(
-              items: [
-                DropdownMenuItem(child: Text("Male")),
-                DropdownMenuItem(child: Text("Female")),
-              ],
-              onChanged: (value) {},
-            ),
+            // DropdownButton(
+            //   items: [
+            //     DropdownMenuItem(child: Text("Male")),
+            //     DropdownMenuItem(child: Text("Female")),
+            //   ],
+            //   onChanged: (value) {},
+            // ),
           ],
         ),
       ),

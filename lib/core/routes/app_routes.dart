@@ -8,6 +8,7 @@ import 'package:furniture_app/feature/auth/presentation/view/reset_password_scre
 import 'package:furniture_app/feature/bottom_navigation_bar/presentation/view/bottom_navigation_bar.dart';
 import 'package:furniture_app/feature/cart/presentation/view/cart_screen.dart';
 import 'package:furniture_app/feature/home/presentation/view/home_screen.dart';
+import 'package:furniture_app/feature/home/presentation/view/product_detail_screen.dart';
 import 'package:furniture_app/feature/on_boarding/presentation/view/on_boarding_screen.dart';
 import 'package:furniture_app/feature/on_boarding/presentation/view/splash_screen.dart';
 import 'package:furniture_app/feature/on_boarding/presentation/view/welcome_screen.dart';
@@ -71,6 +72,12 @@ class AppRoutes {
         name: Routes.confirmOtpScreen.name,
         path: Routes.confirmOtpScreen.path,
         builder: (context, state) => ConfirmOtpScreen(),
+      ),
+
+      GoRoute(
+        name: Routes.productDetailScreen.name,
+        path: Routes.productDetailScreen.path,
+        builder: (context, state) => ProductDetailScreen(),
       ),
 
       StatefulShellRoute.indexedStack(

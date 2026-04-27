@@ -38,6 +38,7 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
       elevation: elevation,
       centerTitle: false,
       leadingWidth: 60.w,
+      surfaceTintColor: Colors.transparent,
       // 🔹 LEADING
       leading: showLeading
           ? Padding(

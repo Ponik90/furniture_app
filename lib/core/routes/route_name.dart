@@ -51,9 +51,14 @@ class Routes {
   static const cartScreen = _RouteItem(
     name: _RouteName.cartScreen,
     path: _RoutePath.cartScreen,
-  );static const profileScreen = _RouteItem(
+  );
+  static const profileScreen = _RouteItem(
     name: _RouteName.profileScreen,
     path: _RoutePath.profileScreen,
+  );
+  static const productDetailScreen = _RouteItem(
+    name: _RouteName.productDetailScreen,
+    path: _RoutePath.productDetailScreen,
   );
 }
 
@@ -73,6 +78,8 @@ class _RouteName {
   static const productScreen = "productScreen";
   static const cartScreen = "cartScreen";
   static const profileScreen = "profileScreen";
+
+  static const productDetailScreen = "productDetailScreen";
 }
 
 class _RoutePath {
@@ -92,6 +99,8 @@ class _RoutePath {
   static const productScreen = "/product-screen";
   static const cartScreen = "/cart-screen";
   static const profileScreen = "/profile-screen";
+
+  static const productDetailScreen = "/product-detail-screen";
 }
 
 class _RouteItem {
