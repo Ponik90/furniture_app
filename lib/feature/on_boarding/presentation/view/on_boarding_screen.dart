@@ -1,4 +1,3 @@
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:furniture_app/core/constant/app_imports.dart';
 import 'package:furniture_app/feature/on_boarding/presentation/provider/on_boarding_provider.dart';
 

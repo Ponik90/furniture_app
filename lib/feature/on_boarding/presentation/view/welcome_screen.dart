@@ -1,6 +1,4 @@
 import 'dart:ui';
-import 'package:furniture_app/core/common/widget/common_social_login_button_widget.dart';
-import 'package:furniture_app/core/common/widget/continue_with_divider.dart';
 import 'package:furniture_app/core/constant/app_imports.dart';
 
 class WelcomeScreen extends StatefulWidget {

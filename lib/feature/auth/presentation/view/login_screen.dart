@@ -1,4 +1,6 @@
 import 'package:furniture_app/core/constant/app_imports.dart';
+import 'package:furniture_app/core/utils/validators.dart';
+import 'package:furniture_app/feature/auth/presentation/provider/auth_provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -7,7 +9,7 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends State<LoginScreen> with ValidatorsMixin {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -33,94 +35,102 @@ class _LoginScreenState extends State<LoginScreen> {
           left: 20.w,
           bottom: MediaQuery.paddingOf(context).bottom + 20,
         ),
-        child: Column(
-          crossAxisAlignment: .start,
-          children: [
-            Image.asset(AppAssets.loginVectorImage),
-            Gap(20.h),
-            Center(
-              child: Text(
-                AppString.loginToYourAccount,
-                style: Theme.of(
-                  context,
-                ).textTheme.headlineMedium?.copyWith(fontSize: 30.sp),
-                textAlign: .center,
-              ),
-            ),
-            Gap(30.h),
-            CommonTextFormField(
-              controller: _emailController,
-              focusNode: _emailFocus,
-              hintText: AppString.email,
-              prefixIcon: SvgPicture.asset(
-                AppAssets.emailIcon,
-                height: 24.h,
-                width: 24.h,
-                fit: .scaleDown,
-              ),
-              keyboardType: .emailAddress,
-            ),
-            Gap(20.h),
-            CommonTextFormField(
-              controller: _passwordController,
-              focusNode: _passwordFocus,
-              // obscureText: true,
-              hintText: AppString.password,
-              suffixIcon: SvgPicture.asset(
-                AppAssets.eyeOffIcon,
-                height: 24.h,
-                width: 24.h,
-                fit: .scaleDown,
-              ),
-              prefixIcon: SvgPicture.asset(
-                AppAssets.lockIcon,
-                height: 24.h,
-                width: 24.h,
-                fit: .scaleDown,
-              ),
-              keyboardType: .visiblePassword,
-            ),
-            Gap(10.h),
-            GestureDetector(
-              onTap: () {
-                context.pushNamed(Routes.forgetPasswordScreen.name);
-              },
-              child: Align(
-                alignment: .centerRight,
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: .start,
+            children: [
+              Image.asset(AppAssets.loginVectorImage),
+              Gap(20.h),
+              Center(
                 child: Text(
-                  "${AppString.forgetPassword}?",
-                  style: Theme.of(context).textTheme.titleMedium,
+                  AppString.loginToYourAccount,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.headlineMedium?.copyWith(fontSize: 30.sp),
+                  textAlign: .center,
                 ),
               ),
-            ),
-
-            Gap(30.h),
-            CommonButton(
-              text: AppString.login,
-              onTap: () {
-                // if (_formKey.currentState!.validate()) {
-                  context.goNamed(Routes.homeScreen.name);
-                // }
-              },
-            ),
-            Gap(20.h),
-            ContinueWithDivider(),
-            Gap(20.h),
-            CommonSocialLoginButtonWidget(),
-
-            Gap(40.h),
-            GestureDetector(
-              onTap: () {
-                context.goNamed(Routes.signupScreen.name);
-              },
-              child: Center(
-                child: Text(
-                  AppString.dontHaveAccount,
-                  style: Theme.of(context).textTheme.titleMedium,
+              Gap(30.h),
+              CommonTextFormField(
+                controller: _emailController,
+                focusNode: _emailFocus,
+                hintText: AppString.email,
+                prefixIcon: SvgPicture.asset(
+                  AppAssets.emailIcon,
+                  height: 24.h,
+                  width: 24.h,
+                  fit: .scaleDown,
+                ),
+                keyboardType: .emailAddress,
+                validator: validateEmail,
+              ),
+              Gap(20.h),
+              CommonTextFormField(
+                controller: _passwordController,
+                focusNode: _passwordFocus,
+                // obscureText: true,
+                hintText: AppString.password,
+                suffixIcon: SvgPicture.asset(
+                  AppAssets.eyeOffIcon,
+                  height: 24.h,
+                  width: 24.h,
+                  fit: .scaleDown,
+                ),
+                prefixIcon: SvgPicture.asset(
+                  AppAssets.lockIcon,
+                  height: 24.h,
+                  width: 24.h,
+                  fit: .scaleDown,
+                ),
+                keyboardType: .visiblePassword,
+                validator: validatePassword,
+              ),
+              Gap(10.h),
+              GestureDetector(
+                onTap: () {
+                  context.pushNamed(Routes.forgetPasswordScreen.name);
+                },
+                child: Align(
+                  alignment: .centerRight,
+                  child: Text(
+                    "${AppString.forgetPassword}?",
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
                 ),
               ),
-            ),
-          ],
+
+              Gap(30.h),
+              CommonButton(
+                text: AppString.login,
+                onTap: () {
+                  if (_formKey.currentState!.validate()) {
+                    context.read<AuthProvider>().login(
+                      email: _emailController.text,
+                      password: _passwordController.text,
+                    );
+                  }
+                },
+              ),
+              Gap(20.h),
+              ContinueWithDivider(),
+              Gap(20.h),
+              CommonSocialLoginButtonWidget(),
+
+              Gap(40.h),
+              GestureDetector(
+                onTap: () {
+                  context.goNamed(Routes.signupScreen.name);
+                },
+                child: Center(
+                  child: Text(
+                    AppString.dontHaveAccount,
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

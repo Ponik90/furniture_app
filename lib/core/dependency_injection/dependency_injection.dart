@@ -1,6 +1,18 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart' hide AuthProvider;
+import 'package:furniture_app/core/services/storage_service/storage_service.dart';
+import 'package:furniture_app/feature/auth/data/remote_data/auth_remote_data.dart';
+import 'package:furniture_app/feature/auth/data/repository_impl/auth_repository_impl.dart';
+import 'package:furniture_app/feature/auth/domain/repository/auth_repository.dart';
+import 'package:furniture_app/feature/auth/domain/usecase/complete_profile_use_case.dart';
+import 'package:furniture_app/feature/auth/domain/usecase/create_account_use_case.dart';
+import 'package:furniture_app/feature/auth/domain/usecase/create_user_use_case.dart';
+import 'package:furniture_app/feature/auth/domain/usecase/login_use_case.dart';
+import 'package:furniture_app/feature/auth/presentation/provider/auth_provider.dart';
 import 'package:furniture_app/feature/bottom_navigation_bar/presentation/provider/bottom_navigation_bar_provider.dart';
 import 'package:furniture_app/feature/on_boarding/presentation/provider/on_boarding_provider.dart';
 import 'package:get_it/get_it.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final GetIt getIt = GetIt.instance;
 
@@ -21,11 +33,29 @@ class DependencyInjection {
   // 🔹 THIRD PARTY
   // =========================
   static Future<void> _initThirdParty() async {
-    // Example:
-    // final sharedPreferences = await SharedPreferences.getInstance();
-    // getIt.registerLazySingleton(() => sharedPreferences);
+    // shared preferences
+    final sharedPreferences = await SharedPreferences.getInstance();
+    getIt.registerLazySingleton(() => sharedPreferences);
 
-    // Firebase / HTTP / Dio etc.
+    // Firebase
+    final firebaseAuth = FirebaseAuth.instance;
+    getIt.registerLazySingleton(() => firebaseAuth);
+
+    final firebaseFirestore = FirebaseFirestore.instance;
+    getIt.registerLazySingleton(() => firebaseFirestore);
+  }
+
+  // =========================
+  // 🔹 CORE SERVICES
+  // =========================
+  static void _initServices() {
+    getIt.registerLazySingleton<StorageService>(
+      () => StorageServiceImpl(sharedPreferences: getIt<SharedPreferences>()),
+    );
+    //
+    // getIt.registerLazySingleton<FirebaseService>(
+    //       () => FirebaseService(),
+    // );
   }
 
   //! 🔹 Onboarding FEATURE
@@ -41,39 +71,38 @@ class DependencyInjection {
     );
   }
 
-  // =========================
-  // 🔹 CORE SERVICES
-  // =========================
-  static void _initServices() {
-    // getIt.registerLazySingleton<NetworkService>(
-    //       () => NetworkService(),
-    // );
-    //
-    // getIt.registerLazySingleton<FirebaseService>(
-    //       () => FirebaseService(),
-    // );
-  }
-
   //! 🔹 AUTH FEATURE
   static void _initAuth() {
     // 📡 DataSource
-    // getIt.registerLazySingleton<AuthRemoteDataSource>(
-    //       () => AuthRemoteDataSource(),
-    // );
+    getIt.registerLazySingleton<AuthRemoteDataSource>(
+      () => AuthRemoteDataSourceImpl(
+        firebaseAuth: getIt<FirebaseAuth>(),
+        firebaseFirestore: getIt<FirebaseFirestore>(),
+      ),
+    );
     //
-    // // 📦 Repository
-    // getIt.registerLazySingleton<AuthRepository>(
-    //       () => AuthRepositoryImpl(getIt()),
-    // );
-    //
-    // // ⚙️ UseCase
-    // getIt.registerLazySingleton<LoginUseCase>(
-    //       () => LoginUseCase(getIt()),
-    // );
-    //
-    // // 🎯 Provider / Controller
-    // getIt.registerFactory<AuthProvider>(
-    //       () => AuthProvider(loginUseCase: getIt()),
-    // );
+    // 📦 Repository
+    getIt.registerLazySingleton<AuthRepository>(
+      () => AuthRepositoryImpl(remote: getIt<AuthRemoteDataSource>()),
+    );
+
+    // ⚙️ UseCase
+    getIt.registerLazySingleton<LoginUseCase>(
+      () => LoginUseCase(authRepository: getIt<AuthRepository>()),
+    );
+    getIt.registerLazySingleton<CreateAccountUseCase>(
+      () => CreateAccountUseCase(authRepository: getIt<AuthRepository>()),
+    );
+
+    // 🎯 Provider / Controller
+    getIt.registerFactory<AuthProvider>(
+      () => AuthProvider(
+        storageService: getIt<StorageService>(),
+        loginUseCase: getIt<LoginUseCase>(),
+        createAccountUseCase: getIt<CreateAccountUseCase>(),
+        createUserUseCase: getIt<CreateUserUseCase>(),
+        completeProfileUseCase: getIt<CompleteProfileUseCase>(),
+      ),
+    );
   }
 }

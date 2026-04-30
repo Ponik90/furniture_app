@@ -24,9 +24,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
             Gap(20.h),
             Text(
               AppString.createYourNewPassword,
-              style: Theme.of(
-                context,
-              ).textTheme.headlineMedium?.copyWith(fontWeight: .w500),
+              style: textTheme.headlineMedium?.copyWith(fontWeight: .w500),
             ),
             Gap(30.h),
 

@@ -1,4 +1,5 @@
 import 'package:furniture_app/core/common/widget/common_appbar.dart';
+import 'package:furniture_app/feature/auth/presentation/provider/auth_provider.dart';
 
 import '../../../../core/constant/app_imports.dart';
 
@@ -12,8 +13,6 @@ class CompleteProfileScreen extends StatefulWidget {
 class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-
     return Scaffold(
       appBar: CommonAppBar(title: "Fill Your Profile", showLeading: false),
       body: SingleChildScrollView(
@@ -98,7 +97,7 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
         child: CommonButton(
           text: 'Submit',
           onTap: () {
-            context.goNamed(Routes.homeScreen.name);
+              context.read<AuthProvider>().completeProfile(email: 'email', password: 'password');
           },
         ),
       ),

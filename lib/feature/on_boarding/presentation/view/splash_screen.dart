@@ -1,4 +1,5 @@
 import 'package:furniture_app/core/constant/app_imports.dart';
+import 'package:furniture_app/feature/auth/presentation/provider/auth_provider.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -11,7 +12,10 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     Future.delayed(const Duration(seconds: 3)).then((value) {
-      context.goNamed(Routes.onBoardingScreen.name);
+      Provider.of<AuthProvider>(
+        context,
+        listen: false,
+      ).navigateAccordingState();
     });
     super.initState();
   }
