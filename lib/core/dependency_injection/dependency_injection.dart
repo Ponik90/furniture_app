@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide AuthProvider;
+import 'package:furniture_app/core/services/cloudinary_upload_image_service/upload_image_service.dart';
 import 'package:furniture_app/core/services/storage_service/storage_service.dart';
 import 'package:furniture_app/feature/auth/data/remote_data/auth_remote_data.dart';
 import 'package:furniture_app/feature/auth/data/repository_impl/auth_repository_impl.dart';
@@ -11,8 +13,14 @@ import 'package:furniture_app/feature/auth/domain/usecase/login_use_case.dart';
 import 'package:furniture_app/feature/auth/presentation/provider/auth_provider.dart';
 import 'package:furniture_app/feature/bottom_navigation_bar/presentation/provider/bottom_navigation_bar_provider.dart';
 import 'package:furniture_app/feature/on_boarding/presentation/provider/on_boarding_provider.dart';
+import 'package:furniture_app/feature/profile/data/data_source/remote_data.dart';
+import 'package:furniture_app/feature/profile/data/repository_impl/profile_repository_impl.dart';
+import 'package:furniture_app/feature/profile/domain/use_case/get_profile_use_case.dart';
+import 'package:furniture_app/feature/profile/presentation/provider/profile_provider.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../feature/profile/domain/repository/profile_repository.dart';
 
 final GetIt getIt = GetIt.instance;
 
@@ -27,6 +35,7 @@ class DependencyInjection {
     // 👉 later:
     // _initProduct();
     // _initCart();
+    _initProfile();
   }
 
   // =========================
@@ -53,6 +62,10 @@ class DependencyInjection {
       () => StorageServiceImpl(sharedPreferences: getIt<SharedPreferences>()),
     );
     //
+    getIt.registerLazySingleton<UploadImageService>(
+      () => UploadImageService(dio: Dio()),
+    );
+
     // getIt.registerLazySingleton<FirebaseService>(
     //       () => FirebaseService(),
     // );
@@ -93,15 +106,50 @@ class DependencyInjection {
     getIt.registerLazySingleton<CreateAccountUseCase>(
       () => CreateAccountUseCase(authRepository: getIt<AuthRepository>()),
     );
+    getIt.registerLazySingleton<CreateUserUseCase>(
+      () => CreateUserUseCase(authRepository: getIt<AuthRepository>()),
+    );
+    getIt.registerLazySingleton<CompleteProfileUseCase>(
+      () => CompleteProfileUseCase(authRepository: getIt<AuthRepository>()),
+    );
 
     // 🎯 Provider / Controller
     getIt.registerFactory<AuthProvider>(
       () => AuthProvider(
         storageService: getIt<StorageService>(),
+        uploadImageService: getIt<UploadImageService>(),
         loginUseCase: getIt<LoginUseCase>(),
         createAccountUseCase: getIt<CreateAccountUseCase>(),
         createUserUseCase: getIt<CreateUserUseCase>(),
         completeProfileUseCase: getIt<CompleteProfileUseCase>(),
+      ),
+    );
+  }
+
+  static void _initProfile() {
+    // 📡 DataSource
+    getIt.registerLazySingleton<ProfileRemoteData>(
+      () =>
+          ProfileRemoteDataImpl(firebaseFirestore: getIt<FirebaseFirestore>()),
+    );
+    //
+    // 📦 Repository
+    getIt.registerLazySingleton<ProfileRepository>(
+      () =>
+          ProfileRepositoryImpl(profileRemoteData: getIt<ProfileRemoteData>()),
+    );
+
+    // ⚙️ UseCase
+    getIt.registerLazySingleton<GetProfileUseCase>(
+      () =>
+          GetProfileUseCase(profileRepository: getIt<ProfileRepositoryImpl>()),
+    );
+    // 🎯 Provider / Controller
+    getIt.registerFactory<ProfileProvider>(
+      () => ProfileProvider(
+        storageService: getIt<StorageService>(),
+        uploadImageService: getIt<UploadImageService>(),
+        getProfileUseCase: getIt<GetProfileUseCase>(),
       ),
     );
   }

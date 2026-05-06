@@ -8,6 +8,7 @@ import 'package:furniture_app/core/utils/utils.dart';
 import 'package:furniture_app/feature/auth/presentation/provider/auth_provider.dart';
 import 'package:furniture_app/feature/bottom_navigation_bar/presentation/provider/bottom_navigation_bar_provider.dart';
 import 'package:furniture_app/feature/on_boarding/presentation/provider/on_boarding_provider.dart';
+import 'package:furniture_app/feature/profile/presentation/provider/profile_provider.dart';
 import 'package:provider/provider.dart';
 
 class MyApp extends StatelessWidget {
@@ -27,6 +28,9 @@ class MyApp extends StatelessWidget {
               create: (context) => getIt<BottomNavigationBarProvider>(),
             ),
             ChangeNotifierProvider(create: (context) => getIt<AuthProvider>()),
+            ChangeNotifierProvider(
+              create: (context) => getIt<ProfileProvider>(),
+            ),
           ],
           child: MaterialApp.router(
             title: AppConstant.appName,

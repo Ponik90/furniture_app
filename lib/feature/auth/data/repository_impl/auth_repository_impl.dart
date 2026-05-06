@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:furniture_app/feature/auth/data/remote_data/auth_remote_data.dart';
 import 'package:furniture_app/feature/auth/domain/repository/auth_repository.dart';
@@ -74,6 +76,8 @@ class AuthRepositoryImpl implements AuthRepository {
       );
       return Right(result);
     } catch (e) {
+
+      log("update user usefaild  :: $e");
       return Left(AppInterceptor.handleException(e));
     }
   }

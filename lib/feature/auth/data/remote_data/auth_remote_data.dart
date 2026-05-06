@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:furniture_app/core/constant/app_constant.dart';
 
 abstract interface class AuthRemoteDataSource {
   Future<UserCredential> login({
@@ -66,12 +67,15 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
     required String name,
     required String email,
   }) async {
-   await firebaseFirestore.collection('user').doc(userId).set({
-      'name': name,
-      'id': userId,
-      'email': email,
-      'create_at': Timestamp.now(),
-    });
+    await firebaseFirestore
+        .collection(AppConstant.userCollection)
+        .doc(userId)
+        .set({
+          'name': name,
+          'id': userId,
+          'email': email,
+          'create_at': Timestamp.now(),
+        });
   }
 
   @override
@@ -82,12 +86,15 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
     required String number,
     required String dob,
   }) async {
-   await firebaseFirestore.collection('user').doc(userId).update({
-      "name": name,
-      "image": image,
-      'number': number,
-      "dob": dob,
-      'update_at': Timestamp.now(),
-    });
+    await firebaseFirestore
+        .collection(AppConstant.userCollection)
+        .doc(userId)
+        .update({
+          "name": name,
+          "image": image,
+          'number': number,
+          "dob": dob,
+          'update_at': Timestamp.now(),
+        });
   }
 }

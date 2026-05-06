@@ -12,6 +12,6 @@ class CreateAccountUseCase implements UseCase<UserCredential,UserEmailPassParms>
 
   @override
   Future<Either<Failure, UserCredential>> call(UserEmailPassParms params) async {
-    return await authRepository.loginData(email: params.email, password: params.pass);
+    return await authRepository.createAccount(email: params.email, password: params.pass);
   }
 }
