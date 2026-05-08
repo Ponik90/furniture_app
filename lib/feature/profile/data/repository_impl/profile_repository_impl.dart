@@ -1,5 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
-import 'package:furniture_app/feature/profile/data/data_source/remote_data.dart';
+import 'package:furniture_app/feature/profile/data/data_source/profile_remote_data.dart';
 import 'package:furniture_app/feature/profile/data/model/profile_model.dart';
 import 'package:furniture_app/feature/profile/domain/repository/profile_repository.dart';
 
@@ -17,7 +18,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
     try {
       final result = await profileRemoteData.getProfileData(userId: userId);
       return Right(result);
-    } on DioException catch (e) {
+    } on FirebaseException catch (e) {
       return Left(AppInterceptor.handleException(e));
     } catch (e) {
       return Left(AppInterceptor.handleException(e));

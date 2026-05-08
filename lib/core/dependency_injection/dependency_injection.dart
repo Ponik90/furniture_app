@@ -13,7 +13,7 @@ import 'package:furniture_app/feature/auth/domain/usecase/login_use_case.dart';
 import 'package:furniture_app/feature/auth/presentation/provider/auth_provider.dart';
 import 'package:furniture_app/feature/bottom_navigation_bar/presentation/provider/bottom_navigation_bar_provider.dart';
 import 'package:furniture_app/feature/on_boarding/presentation/provider/on_boarding_provider.dart';
-import 'package:furniture_app/feature/profile/data/data_source/remote_data.dart';
+import 'package:furniture_app/feature/profile/data/data_source/profile_remote_data.dart';
 import 'package:furniture_app/feature/profile/data/repository_impl/profile_repository_impl.dart';
 import 'package:furniture_app/feature/profile/domain/use_case/get_profile_use_case.dart';
 import 'package:furniture_app/feature/profile/presentation/provider/profile_provider.dart';
@@ -132,7 +132,6 @@ class DependencyInjection {
       () =>
           ProfileRemoteDataImpl(firebaseFirestore: getIt<FirebaseFirestore>()),
     );
-    //
     // 📦 Repository
     getIt.registerLazySingleton<ProfileRepository>(
       () =>
@@ -141,8 +140,7 @@ class DependencyInjection {
 
     // ⚙️ UseCase
     getIt.registerLazySingleton<GetProfileUseCase>(
-      () =>
-          GetProfileUseCase(profileRepository: getIt<ProfileRepositoryImpl>()),
+      () => GetProfileUseCase(profileRepository: getIt<ProfileRepository>()),
     );
     // 🎯 Provider / Controller
     getIt.registerFactory<ProfileProvider>(

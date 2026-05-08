@@ -5,15 +5,14 @@ class AppAssets {
   ///images
   static const appLogo = "${_images}app_logo.png";
   static const onBoardingImage1 = "${_images}on_boarding_1.png";
-  static const onBoardingImage2= "${_images}on_boarding_2.png";
-  static const onBoardingImage3= "${_images}on_boarding_3.png";
-  static const loginVectorImage= "${_images}login_vector_image.png";
-  static const resetPasswordImage= "${_images}create_new_password_image.png";
-
+  static const onBoardingImage2 = "${_images}on_boarding_2.png";
+  static const onBoardingImage3 = "${_images}on_boarding_3.png";
+  static const loginVectorImage = "${_images}login_vector_image.png";
+  static const resetPasswordImage = "${_images}create_new_password_image.png";
 
   ///icons
   static const lockIcon = "${_icons}lock_icon.svg";
-  static const googleIcon= "${_icons}google_icon.svg";
+  static const googleIcon = "${_icons}google_icon.svg";
   static const appleIcon = "${_icons}apple_icon.svg";
   static const emailIcon = "${_icons}email_icon.svg";
   static const eyeOffIcon = "${_icons}eye_off_icon.svg";
@@ -34,5 +33,8 @@ class AppAssets {
   static const sofaIcon = "${_icons}sofa_icon.svg";
   static const tableIcon = "${_icons}table_icon.svg";
   static const vaseIcon = "${_icons}vase_icon.svg";
-
+  static const rightArrowIcon = "${_icons}right_arrow_icon.svg";
+  static const locationIcon = "${_icons}location_icon.svg";
+  static const lockIcon2 = "${_icons}lock_icon_2.svg";
+  static const logoutIcon = "${_icons}logout_icon.svg";
 }

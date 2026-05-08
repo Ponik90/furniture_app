@@ -121,7 +121,10 @@ class AppTheme {
   // 🌙 MAIN THEME
   static final ThemeData lightTheme = ThemeData(
     scaffoldBackgroundColor: whiteColor,
-
+    splashColor: Colors.transparent,
+    splashFactory: NoSplash.splashFactory,
+    highlightColor: Colors.transparent,
+    visualDensity: VisualDensity.adaptivePlatformDensity,
     primaryColor: primaryColor,
 
     colorScheme: const ColorScheme.light().copyWith(
