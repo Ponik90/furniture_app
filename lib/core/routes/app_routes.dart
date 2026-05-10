@@ -13,6 +13,9 @@ import 'package:furniture_app/feature/on_boarding/presentation/view/on_boarding_
 import 'package:furniture_app/feature/on_boarding/presentation/view/splash_screen.dart';
 import 'package:furniture_app/feature/on_boarding/presentation/view/welcome_screen.dart';
 import 'package:furniture_app/feature/order/presentation/view/order_screen.dart';
+import 'package:furniture_app/feature/profile/presentation/view/add_location_screen.dart';
+import 'package:furniture_app/feature/profile/presentation/view/edit_profile_screen.dart';
+import 'package:furniture_app/feature/profile/presentation/view/privacy_policy_screen.dart';
 import 'package:furniture_app/feature/profile/presentation/view/profile_screen.dart';
 import 'package:go_router/go_router.dart';
 
@@ -56,7 +59,14 @@ class AppRoutes {
       GoRoute(
         name: Routes.completeProfileScreen.name,
         path: Routes.completeProfileScreen.path,
-        builder: (context, state) => CompleteProfileScreen(),
+        builder: (context, state) {
+          final userId = state.uri.queryParameters['user_id'];
+          final email = state.uri.queryParameters['email'];
+          return CompleteProfileScreen(
+            userId: userId ?? "",
+            email: email ?? "",
+          );
+        },
       ),
       GoRoute(
         name: Routes.forgetPasswordScreen.name,
@@ -78,6 +88,21 @@ class AppRoutes {
         name: Routes.productDetailScreen.name,
         path: Routes.productDetailScreen.path,
         builder: (context, state) => ProductDetailScreen(),
+      ),
+      GoRoute(
+        name: Routes.editProfileScreen.name,
+        path: Routes.editProfileScreen.path,
+        builder: (context, state) => EditProfileScreen(),
+      ),
+      GoRoute(
+        name: Routes.addLocationScreen.name,
+        path: Routes.addLocationScreen.path,
+        builder: (context, state) => AddLocationScreen(),
+      ),
+      GoRoute(
+        name: Routes.privacyPolicyScreen.name,
+        path: Routes.privacyPolicyScreen.path,
+        builder: (context, state) => PrivacyPolicyScreen(),
       ),
 
       StatefulShellRoute.indexedStack(

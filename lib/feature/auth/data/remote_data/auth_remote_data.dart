@@ -13,19 +13,18 @@ abstract interface class AuthRemoteDataSource {
     required String password,
   });
 
-  Future<void> createUser({
-    required String userId,
-    required String name,
-    required String email,
-  });
+  Future<void> createUser({required String userId, required String email});
 
   Future<void> completeUserProfile({
     required String userId,
+    required bool isVerified,
     required String image,
     required String name,
     required String number,
     required String dob,
   });
+
+  Future<DocumentSnapshot> checkUser({required String userId});
 }
 
 class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
@@ -64,18 +63,12 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
   @override
   Future<void> createUser({
     required String userId,
-    required String name,
     required String email,
   }) async {
     await firebaseFirestore
         .collection(AppConstant.userCollection)
         .doc(userId)
-        .set({
-          'name': name,
-          'id': userId,
-          'email': email,
-          'create_at': Timestamp.now(),
-        });
+        .set({'id': userId, 'email': email, 'create_at': Timestamp.now()});
   }
 
   @override
@@ -85,6 +78,7 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
     required String name,
     required String number,
     required String dob,
+    required bool isVerified,
   }) async {
     await firebaseFirestore
         .collection(AppConstant.userCollection)
@@ -94,7 +88,17 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
           "image": image,
           'number': number,
           "dob": dob,
+          "is_verified": isVerified,
           'update_at': Timestamp.now(),
         });
+  }
+
+  @override
+  Future<DocumentSnapshot> checkUser({required String userId}) async {
+    final data = await firebaseFirestore
+        .collection(AppConstant.userCollection)
+        .doc(userId)
+        .get();
+    return data;
   }
 }

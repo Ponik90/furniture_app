@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:furniture_app/core/constant/app_imports.dart';
@@ -15,7 +16,6 @@ abstract interface class AuthRepository {
 
   Future<Either<Failure, void>> createUser({
     required String userId,
-    required String name,
     required String email,
   });
 
@@ -23,7 +23,10 @@ abstract interface class AuthRepository {
     required String userId,
     required String image,
     required String name,
+    required bool isVerified,
     required String number,
     required String dob,
   });
+
+  Future<Either<Failure, DocumentSnapshot>> checkUser({required String userId});
 }

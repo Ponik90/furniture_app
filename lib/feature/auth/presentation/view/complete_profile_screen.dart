@@ -5,7 +5,13 @@ import 'package:intl/intl.dart';
 import '../../../../core/constant/app_imports.dart';
 
 class CompleteProfileScreen extends StatefulWidget {
-  const CompleteProfileScreen({super.key});
+  final String userId, email;
+
+  const CompleteProfileScreen({
+    super.key,
+    required this.userId,
+    required this.email,
+  });
 
   @override
   State<CompleteProfileScreen> createState() => _CompleteProfileScreenState();
@@ -13,6 +19,12 @@ class CompleteProfileScreen extends StatefulWidget {
 
 class _CompleteProfileScreenState extends State<CompleteProfileScreen>
     with ValidatorsMixin {
+  @override
+  void initState() {
+    emailController.text = widget.email;
+    super.initState();
+  }
+
   final nameController = TextEditingController();
   final dobController = TextEditingController();
   final emailController = TextEditingController();
@@ -66,7 +78,9 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen>
                               shape: .circle,
                               color: AppTheme.greyColor,
                             ),
-                            child: authProvider.imageUrl.isNotEmpty
+                            child: authProvider.isUploadingImage
+                                ? CircularProgressIndicator()
+                                : authProvider.imageUrl.isNotEmpty
                                 ? CachedNetworkImage(
                                     height: 120.h,
                                     width: 120.h,
@@ -138,6 +152,7 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen>
               ),
               Gap(20.h),
               CommonTextFormField(
+                readOnly: true,
                 focusNode: emailFocus,
                 hintText: 'Email',
                 keyboardType: .emailAddress,
@@ -163,16 +178,22 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen>
           top: 10.h,
           bottom: MediaQuery.paddingOf(context).bottom + 20,
         ),
-        child: CommonButton(
-          text: 'Submit',
-          onTap: () {
-            if (formKey.currentState!.validate()) {
-              context.read<AuthProvider>().completeProfile(
-                number: numberController.text,
-                name: nameController.text,
-                dob: dobController.text,
-              );
-            }
+        child: Consumer<AuthProvider>(
+          builder: (context, authProvider, child) {
+            return CommonButton(
+              isLoading: authProvider.isCompletingAccount,
+              text: 'Submit',
+              onTap: () {
+                if (formKey.currentState!.validate()) {
+                  authProvider.completeProfile(
+                    userId: widget.userId,
+                    number: numberController.text,
+                    name: nameController.text,
+                    dob: dobController.text,
+                  );
+                }
+              },
+            );
           },
         ),
       ),

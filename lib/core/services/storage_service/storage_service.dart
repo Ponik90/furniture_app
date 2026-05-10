@@ -8,6 +8,10 @@ abstract interface class StorageService {
   Future<void> setBool({required String key, required bool value});
 
   bool? getBool({required String key});
+
+  Future<void> removeValue({required String key});
+
+  Future<void> clearStorage();
 }
 
 class StorageServiceImpl implements StorageService {
@@ -35,5 +39,15 @@ class StorageServiceImpl implements StorageService {
   bool? getBool({required String key}) {
     final data = sharedPreferences.getBool(key);
     return data;
+  }
+
+  @override
+  Future<void> clearStorage() async {
+    await sharedPreferences.clear();
+  }
+
+  @override
+  Future<void> removeValue({required String key}) async {
+    await sharedPreferences.remove(key);
   }
 }

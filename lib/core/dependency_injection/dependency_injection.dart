@@ -6,16 +6,22 @@ import 'package:furniture_app/core/services/storage_service/storage_service.dart
 import 'package:furniture_app/feature/auth/data/remote_data/auth_remote_data.dart';
 import 'package:furniture_app/feature/auth/data/repository_impl/auth_repository_impl.dart';
 import 'package:furniture_app/feature/auth/domain/repository/auth_repository.dart';
+import 'package:furniture_app/feature/auth/domain/usecase/check_user_use_case.dart';
 import 'package:furniture_app/feature/auth/domain/usecase/complete_profile_use_case.dart';
 import 'package:furniture_app/feature/auth/domain/usecase/create_account_use_case.dart';
 import 'package:furniture_app/feature/auth/domain/usecase/create_user_use_case.dart';
 import 'package:furniture_app/feature/auth/domain/usecase/login_use_case.dart';
 import 'package:furniture_app/feature/auth/presentation/provider/auth_provider.dart';
 import 'package:furniture_app/feature/bottom_navigation_bar/presentation/provider/bottom_navigation_bar_provider.dart';
+import 'package:furniture_app/feature/home/data/remote_data/home_remote_data.dart';
+import 'package:furniture_app/feature/home/data/repository_impl/home_repository_impl.dart';
+import 'package:furniture_app/feature/home/domian/repository/home_repository.dart';
+import 'package:furniture_app/feature/home/presentation/provider/home_provider.dart';
 import 'package:furniture_app/feature/on_boarding/presentation/provider/on_boarding_provider.dart';
 import 'package:furniture_app/feature/profile/data/data_source/profile_remote_data.dart';
 import 'package:furniture_app/feature/profile/data/repository_impl/profile_repository_impl.dart';
 import 'package:furniture_app/feature/profile/domain/use_case/get_profile_use_case.dart';
+import 'package:furniture_app/feature/profile/domain/use_case/update_profile_use_case.dart';
 import 'package:furniture_app/feature/profile/presentation/provider/profile_provider.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -32,6 +38,7 @@ class DependencyInjection {
     _initOnBoarding();
     _initBottomNavigation();
     _initAuth();
+    _initHome();
     // 👉 later:
     // _initProduct();
     // _initCart();
@@ -112,17 +119,54 @@ class DependencyInjection {
     getIt.registerLazySingleton<CompleteProfileUseCase>(
       () => CompleteProfileUseCase(authRepository: getIt<AuthRepository>()),
     );
+    getIt.registerLazySingleton<CheckUserUseCase>(
+      () => CheckUserUseCase(authRepository: getIt<AuthRepository>()),
+    );
 
     // 🎯 Provider / Controller
     getIt.registerFactory<AuthProvider>(
       () => AuthProvider(
         storageService: getIt<StorageService>(),
         uploadImageService: getIt<UploadImageService>(),
+        checkUserUseCase: getIt<CheckUserUseCase>(),
         loginUseCase: getIt<LoginUseCase>(),
         createAccountUseCase: getIt<CreateAccountUseCase>(),
         createUserUseCase: getIt<CreateUserUseCase>(),
         completeProfileUseCase: getIt<CompleteProfileUseCase>(),
       ),
+    );
+  }
+
+  static void _initHome() {
+    // 📡 DataSource
+    getIt.registerLazySingleton<HomeRemoteData>(
+      () => HomeRemoteDataImpl(
+        // firebaseFirestore: getIt<FirebaseFirestore>(),
+      ),
+    );
+    //
+    // 📦 Repository
+    getIt.registerLazySingleton<HomeRepository>(
+      () => HomeRepositoryImpl(homeRemoteData: getIt<HomeRemoteData>()),
+    );
+
+    // // ⚙️ UseCase
+    // getIt.registerLazySingleton<LoginUseCase>(
+    //   () => LoginUseCase(authRepository: getIt<AuthRepository>()),
+    // );
+    // getIt.registerLazySingleton<CreateAccountUseCase>(
+    //   () => CreateAccountUseCase(authRepository: getIt<AuthRepository>()),
+    // );
+    // getIt.registerLazySingleton<CreateUserUseCase>(
+    //   () => CreateUserUseCase(authRepository: getIt<AuthRepository>()),
+    // );
+    // getIt.registerLazySingleton<CompleteProfileUseCase>(
+    //   () => CompleteProfileUseCase(authRepository: getIt<AuthRepository>()),
+    // );
+
+    // 🎯 Provider / Controller
+    getIt.registerFactory<HomeProvider>(
+      () => HomeProvider(storageService: getIt<StorageService>()),
     );
   }
 
@@ -142,12 +186,16 @@ class DependencyInjection {
     getIt.registerLazySingleton<GetProfileUseCase>(
       () => GetProfileUseCase(profileRepository: getIt<ProfileRepository>()),
     );
+    getIt.registerLazySingleton<UpdateProfileUseCase>(
+      () => UpdateProfileUseCase(profileRepository: getIt<ProfileRepository>()),
+    );
     // 🎯 Provider / Controller
     getIt.registerFactory<ProfileProvider>(
       () => ProfileProvider(
         storageService: getIt<StorageService>(),
         uploadImageService: getIt<UploadImageService>(),
         getProfileUseCase: getIt<GetProfileUseCase>(),
+        updateProfileUseCase: getIt<UpdateProfileUseCase>(),
       ),
     );
   }

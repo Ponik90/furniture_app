@@ -10,6 +10,7 @@ class ProfileModel {
   final String? image;
   final String? name;
   final String? number;
+  final bool? isVerified;
   final Timestamp? updateAt;
 
   ProfileModel({
@@ -21,6 +22,7 @@ class ProfileModel {
     this.name,
     this.number,
     this.updateAt,
+    this.isVerified,
   });
 
   factory ProfileModel.fromJson(String str) =>
@@ -34,6 +36,7 @@ class ProfileModel {
     String? image,
     String? name,
     String? number,
+    bool? isVerified,
     Timestamp? updateAt,
   }) => ProfileModel(
     createAt: createAt ?? this.createAt,
@@ -44,6 +47,7 @@ class ProfileModel {
     name: name ?? this.name,
     number: number ?? this.number,
     updateAt: updateAt ?? this.updateAt,
+    isVerified: isVerified ?? this.isVerified,
   );
 
   String toJson() => json.encode(toMap());
@@ -55,6 +59,7 @@ class ProfileModel {
     id: json["id"],
     image: json["image"],
     name: json["name"],
+    isVerified: json["is_verified"],
     number: json["number"],
     updateAt: json["update_at"],
   );
@@ -67,6 +72,7 @@ class ProfileModel {
     "image": image,
     "name": name,
     "number": number,
+    "is_verified": isVerified,
     "update_at": updateAt,
   };
 }

@@ -1,7 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:furniture_app/core/common/widget/common_appbar.dart';
 import 'package:furniture_app/core/constant/app_imports.dart';
+import 'package:furniture_app/feature/auth/presentation/provider/auth_provider.dart';
 import 'package:furniture_app/feature/profile/presentation/provider/profile_provider.dart';
+import 'package:furniture_app/core/common/widget/common_profile_image.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -38,30 +39,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       shape: .circle,
                       color: AppTheme.greyColor,
                     ),
-                    child: CachedNetworkImage(
-                      height: 120.h,
-                      width: 120.h,
-                      fit: .cover,
+                    child: CommonProfileImage(
                       imageUrl: profileProvider.profileData.image ?? "",
-
-                      placeholder: (context, url) {
-                        return Image.asset(
-                          AppAssets.appLogo,
-                          height: 120.h,
-                          width: 120.h,
-                        );
-                      },
-                      errorWidget: (context, url, error) {
-                        return Padding(
-                          padding: .all(20.r),
-                          child: SvgPicture.asset(
-                            AppAssets.profileIcon,
-                            height: 24.h,
-                            width: 24.h,
-                            fit: .cover,
-                          ),
-                        );
-                      },
                     ),
                   ),
                 ),
@@ -83,25 +62,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Gap(20.h),
               commonTile(
                 onTap: () {
-
-                  // context.pushNamed(Routes.editProfileScreen.name);
+                  context.pushNamed(Routes.editProfileScreen.name);
                 },
                 icon: AppAssets.profileIcon,
                 title: 'Edit Profile',
               ),
               commonTile(
-                onTap: () {},
+                onTap: () {
+                  context.pushNamed(Routes.addLocationScreen.name);
+                },
                 icon: AppAssets.locationIcon,
                 title: 'Add Location',
               ),
               commonTile(
-                onTap: () {},
+                onTap: () {
+                  context.pushNamed(Routes.privacyPolicyScreen.name);
+                },
                 icon: AppAssets.lockIcon2,
                 title: 'Privacy Policy',
               ),
 
               commonTile(
-                onTap: () {},
+                onTap: () {
+                  Provider.of<AuthProvider>(context, listen: false).logOut();
+                },
                 icon: AppAssets.logoutIcon,
                 title: 'Log out',
                 isLogout: true,
@@ -131,7 +115,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         title,
         style: Theme.of(context).textTheme.bodyLarge?.copyWith(
           color: isLogout ? AppTheme.error : null,
-          fontWeight: .w500
+          fontWeight: .w500,
         ),
       ),
       trailing: isLogout

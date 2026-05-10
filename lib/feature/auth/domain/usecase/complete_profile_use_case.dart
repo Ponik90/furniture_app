@@ -15,6 +15,7 @@ class CompleteProfileUseCase implements UseCase<void, CompleteProfileParams> {
       image: params.image,
       userId: params.userId,
       name: params.name,
+      isVerified: params.isVerified,
     );
   }
 }
@@ -25,6 +26,7 @@ class CompleteProfileParams extends Equatable {
   final String number;
   final String dob;
   final String image;
+  final bool isVerified;
 
   const CompleteProfileParams({
     required this.userId,
@@ -32,8 +34,9 @@ class CompleteProfileParams extends Equatable {
     required this.number,
     required this.dob,
     required this.image,
+    required this.isVerified,
   });
 
   @override
-  List<Object?> get props => [userId, name, number, dob, image];
+  List<Object?> get props => [userId, name, number, dob, image, isVerified];
 }

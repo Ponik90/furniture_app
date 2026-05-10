@@ -61,7 +61,7 @@ class CommonButton extends StatelessWidget {
             ? const SizedBox(
                 height: 18,
                 width: 18,
-                child: CircularProgressIndicator(strokeWidth: 2),
+                child: CircularProgressIndicator(strokeWidth: 2,color: AppTheme.whiteColor,),
               )
             : Text(text, style: _buildTextStyle(context)),
       ),

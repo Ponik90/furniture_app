@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:furniture_app/feature/home/data/model/product_model.dart';
 
 import '../../constant/app_imports.dart';
@@ -34,7 +35,15 @@ class CommonProductCard extends StatelessWidget {
             clipBehavior: .antiAlias,
             child: Stack(
               children: [
-                Image.asset(product.image),
+                CachedNetworkImage(
+                  imageUrl: product.image,
+                  placeholder: (context, url) {
+                    return Image.asset(AppAssets.appLogo);
+                  },
+                  errorWidget: (context, url, error) {
+                    return Image.asset(AppAssets.appLogo);
+                  },
+                ),
 
                 Align(
                   alignment: .topRight,

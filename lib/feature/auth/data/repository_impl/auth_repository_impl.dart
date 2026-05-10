@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:furniture_app/feature/auth/data/remote_data/auth_remote_data.dart';
 import 'package:furniture_app/feature/auth/domain/repository/auth_repository.dart';
@@ -43,15 +44,10 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<Either<Failure, void>> createUser({
     required String userId,
-    required String name,
     required String email,
   }) async {
     try {
-      final result = await remote.createUser(
-        email: email,
-        name: name,
-        userId: userId,
-      );
+      final result = await remote.createUser(email: email, userId: userId);
       return Right(result);
     } catch (e) {
       return Left(AppInterceptor.handleException(e));
@@ -65,6 +61,8 @@ class AuthRepositoryImpl implements AuthRepository {
     required String name,
     required String number,
     required String dob,
+    required bool isVerified,
+
   }) async {
     try {
       final result = await remote.completeUserProfile(
@@ -73,10 +71,23 @@ class AuthRepositoryImpl implements AuthRepository {
         image: image,
         name: name,
         userId: userId,
+          isVerified:isVerified
       );
       return Right(result);
     } catch (e) {
+      log("update user usefaild  :: $e");
+      return Left(AppInterceptor.handleException(e));
+    }
+  }
 
+  @override
+  Future<Either<Failure, DocumentSnapshot>> checkUser({
+    required String userId,
+  }) async {
+    try {
+      final result = await remote.checkUser(userId: userId);
+      return Right(result);
+    } catch (e) {
       log("update user usefaild  :: $e");
       return Left(AppInterceptor.handleException(e));
     }

@@ -11,7 +11,6 @@ class CreateUserUseCase implements UseCase<void, CreateUserParams> {
   Future<Either<Failure, void>> call(CreateUserParams params) {
     return authRepository.createUser(
       userId: params.userId,
-      name: params.name,
       email: params.email,
     );
   }
@@ -19,15 +18,10 @@ class CreateUserUseCase implements UseCase<void, CreateUserParams> {
 
 class CreateUserParams extends Equatable {
   final String userId;
-  final String name;
   final String email;
 
-  const CreateUserParams({
-    required this.userId,
-    required this.name,
-    required this.email,
-  });
+  const CreateUserParams({required this.userId, required this.email});
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [userId, email];
 }

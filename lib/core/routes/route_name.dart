@@ -60,6 +60,18 @@ class Routes {
     name: _RouteName.productDetailScreen,
     path: _RoutePath.productDetailScreen,
   );
+  static const editProfileScreen = _RouteItem(
+    name: _RouteName.editProfileScreen,
+    path: _RoutePath.editProfileScreen,
+  );
+  static const addLocationScreen = _RouteItem(
+    name: _RouteName.addLocationScreen,
+    path: _RoutePath.addLocationScreen,
+  );
+  static const privacyPolicyScreen = _RouteItem(
+    name: _RouteName.privacyPolicyScreen,
+    path: _RoutePath.privacyPolicyScreen,
+  );
 }
 
 class _RouteName {
@@ -80,6 +92,9 @@ class _RouteName {
   static const profileScreen = "profileScreen";
 
   static const productDetailScreen = "productDetailScreen";
+  static const editProfileScreen = "editProfileScreen";
+  static const addLocationScreen = "addLocationScreen";
+  static const privacyPolicyScreen = "privacyPolicyScreen";
 }
 
 class _RoutePath {
@@ -101,6 +116,9 @@ class _RoutePath {
   static const profileScreen = "/profile-screen";
 
   static const productDetailScreen = "/product-detail-screen";
+  static const editProfileScreen = "/edit-profile-screen";
+  static const addLocationScreen = "/add-location-screen";
+  static const privacyPolicyScreen = "/privacy-policy-screen";
 }
 
 class _RouteItem {
