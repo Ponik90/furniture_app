@@ -1,5 +1,4 @@
 import 'package:furniture_app/core/common/widget/common_appbar.dart';
-
 import '../../../../core/constant/app_imports.dart';
 
 class ConfirmOtpScreen extends StatefulWidget {
@@ -17,42 +16,40 @@ class _ConfirmOtpScreenState extends State<ConfirmOtpScreen> {
     return Scaffold(
       appBar: CommonAppBar(title: AppString.forgetPassword),
       body: Padding(
-        padding: .only(left: 20.w, right: 20.w),
+        padding: EdgeInsets.symmetric(horizontal: 20.w),
         child: Column(
-          mainAxisAlignment: .center,
-          crossAxisAlignment: .start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Center(
               child: Text(
                 "Code has been send to +91-99...96",
                 style: textTheme.titleMedium,
-                textAlign: .center,
+                textAlign: TextAlign.center,
               ),
             ),
             Gap(40.h),
-            CommonTextFormField(
+            const CommonTextFormField(
               hintText: 'Enter Number',
-              keyboardType: .number,
+              keyboardType: TextInputType.number,
             ),
             Gap(30.h),
-
             Center(
               child: Text(
                 "Resend code in 55s",
                 style: textTheme.titleMedium,
-                textAlign: .center,
+                textAlign: TextAlign.center,
               ),
             ),
           ],
         ),
       ),
-
       bottomNavigationBar: Padding(
-        padding: .only(
+        padding: EdgeInsets.only(
           left: 20.w,
           right: 20.w,
           top: 10.h,
-          bottom: MediaQuery.paddingOf(context).bottom + 20,
+          bottom: MediaQuery.paddingOf(context).bottom + 20.h,
         ),
         child: CommonButton(
           text: 'Verify',

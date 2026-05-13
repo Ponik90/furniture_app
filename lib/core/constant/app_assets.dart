@@ -37,4 +37,5 @@ class AppAssets {
   static const locationIcon = "${_icons}location_icon.svg";
   static const lockIcon2 = "${_icons}lock_icon_2.svg";
   static const logoutIcon = "${_icons}logout_icon.svg";
+  static const bedIcon = "${_icons}bed_icon.svg";
 }

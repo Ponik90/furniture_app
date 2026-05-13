@@ -15,63 +15,61 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     return Scaffold(
       appBar: CommonAppBar(title: AppString.createNewPassword),
       body: Padding(
-        padding: .only(left: 20.w, right: 20.w),
-        child: Column(
-          mainAxisAlignment: .start,
-          crossAxisAlignment: .start,
-          children: [
-            Image.asset(AppAssets.resetPasswordImage),
-            Gap(20.h),
-            Text(
-              AppString.createYourNewPassword,
-              style: textTheme.headlineMedium?.copyWith(fontWeight: .w500),
-            ),
-            Gap(30.h),
-
-            CommonTextFormField(
-              suffixIcon: SvgPicture.asset(
-                AppAssets.eyeOffIcon,
-                height: 24.h,
-                width: 24.h,
-                fit: .scaleDown,
+        padding: EdgeInsets.symmetric(horizontal: 20.w),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Image.asset(AppAssets.resetPasswordImage),
+              Gap(20.h),
+              Text(
+                AppString.createYourNewPassword,
+                style: textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w600),
               ),
-              hintText: AppString.password,
-              prefixIcon: SvgPicture.asset(
-                AppAssets.lockIcon,
-                height: 24.h,
-                width: 24.h,
-                fit: .scaleDown,
+              Gap(30.h),
+              CommonTextFormField(
+                suffixIcon: SvgPicture.asset(
+                  AppAssets.eyeOffIcon,
+                  height: 24.h,
+                  width: 24.h,
+                  fit: BoxFit.scaleDown,
+                ),
+                hintText: AppString.password,
+                prefixIcon: SvgPicture.asset(
+                  AppAssets.lockIcon,
+                  height: 24.h,
+                  width: 24.h,
+                  fit: BoxFit.scaleDown,
+                ),
+                keyboardType: TextInputType.visiblePassword,
               ),
-              keyboardType: .visiblePassword,
-            ),
-            Gap(20.h),
-            CommonTextFormField(
-              // obscureText: true,
-              hintText: AppString.password,
-              suffixIcon: SvgPicture.asset(
-                AppAssets.eyeOffIcon,
-                height: 24.h,
-                width: 24.h,
-                fit: .scaleDown,
+              Gap(20.h),
+              CommonTextFormField(
+                hintText: AppString.password,
+                suffixIcon: SvgPicture.asset(
+                  AppAssets.eyeOffIcon,
+                  height: 24.h,
+                  width: 24.h,
+                  fit: BoxFit.scaleDown,
+                ),
+                prefixIcon: SvgPicture.asset(
+                  AppAssets.lockIcon,
+                  height: 24.h,
+                  width: 24.h,
+                  fit: BoxFit.scaleDown,
+                ),
+                keyboardType: TextInputType.visiblePassword,
               ),
-              prefixIcon: SvgPicture.asset(
-                AppAssets.lockIcon,
-                height: 24.h,
-                width: 24.h,
-                fit: .scaleDown,
-              ),
-              keyboardType: .visiblePassword,
-            ),
-          ],
+            ],
+          ),
         ),
       ),
-
       bottomNavigationBar: Padding(
-        padding: .only(
+        padding: EdgeInsets.only(
           left: 20.w,
           right: 20.w,
           top: 10.h,
-          bottom: MediaQuery.paddingOf(context).bottom + 20,
+          bottom: MediaQuery.paddingOf(context).bottom + 20.h,
         ),
         child: CommonButton(
           text: 'Confirmed',

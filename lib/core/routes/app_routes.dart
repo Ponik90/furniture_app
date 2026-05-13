@@ -9,6 +9,7 @@ import 'package:furniture_app/feature/bottom_navigation_bar/presentation/view/bo
 import 'package:furniture_app/feature/cart/presentation/view/cart_screen.dart';
 import 'package:furniture_app/feature/home/presentation/view/home_screen.dart';
 import 'package:furniture_app/feature/home/presentation/view/product_detail_screen.dart';
+import 'package:furniture_app/feature/home/presentation/view/add_product_screen.dart';
 import 'package:furniture_app/feature/on_boarding/presentation/view/on_boarding_screen.dart';
 import 'package:furniture_app/feature/on_boarding/presentation/view/splash_screen.dart';
 import 'package:furniture_app/feature/on_boarding/presentation/view/welcome_screen.dart';
@@ -17,6 +18,11 @@ import 'package:furniture_app/feature/profile/presentation/view/add_location_scr
 import 'package:furniture_app/feature/profile/presentation/view/edit_profile_screen.dart';
 import 'package:furniture_app/feature/profile/presentation/view/privacy_policy_screen.dart';
 import 'package:furniture_app/feature/profile/presentation/view/profile_screen.dart';
+import 'package:furniture_app/feature/home/presentation/view/favorite_screen.dart';
+import 'package:furniture_app/feature/home/presentation/view/search_screen.dart';
+import 'package:furniture_app/feature/profile/presentation/view/address_list_screen.dart';
+import 'package:furniture_app/feature/profile/presentation/view/wallet_screen.dart';
+import 'package:furniture_app/feature/home/data/model/product_model.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../feature/auth/presentation/view/signup_screen.dart';
@@ -87,7 +93,10 @@ class AppRoutes {
       GoRoute(
         name: Routes.productDetailScreen.name,
         path: Routes.productDetailScreen.path,
-        builder: (context, state) => ProductDetailScreen(),
+        builder: (context, state) {
+          final product = state.extra as ProductModel;
+          return ProductDetailScreen(product: product);
+        },
       ),
       GoRoute(
         name: Routes.editProfileScreen.name,
@@ -103,6 +112,31 @@ class AppRoutes {
         name: Routes.privacyPolicyScreen.name,
         path: Routes.privacyPolicyScreen.path,
         builder: (context, state) => PrivacyPolicyScreen(),
+      ),
+      GoRoute(
+        name: Routes.addProductScreen.name,
+        path: Routes.addProductScreen.path,
+        builder: (context, state) => const AddProductScreen(),
+      ),
+      GoRoute(
+        name: Routes.favoriteScreen.name,
+        path: Routes.favoriteScreen.path,
+        builder: (context, state) => const FavoriteScreen(),
+      ),
+      GoRoute(
+        name: Routes.addressListScreen.name,
+        path: Routes.addressListScreen.path,
+        builder: (context, state) => const AddressListScreen(),
+      ),
+      GoRoute(
+        name: Routes.walletScreen.name,
+        path: Routes.walletScreen.path,
+        builder: (context, state) => const WalletScreen(),
+      ),
+      GoRoute(
+        name: Routes.searchScreen.name,
+        path: Routes.searchScreen.path,
+        builder: (context, state) => const SearchScreen(),
       ),
 
       StatefulShellRoute.indexedStack(

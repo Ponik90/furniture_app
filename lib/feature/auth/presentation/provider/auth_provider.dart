@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:furniture_app/core/constant/app_imports.dart';
 import 'package:furniture_app/core/constant/storage_key.dart';
 import 'package:furniture_app/core/services/cloudinary_upload_image_service/upload_image_service.dart';
@@ -19,6 +20,7 @@ class AuthProvider extends ChangeNotifier {
   final CreateAccountUseCase createAccountUseCase;
   final CreateUserUseCase createUserUseCase;
   final CompleteProfileUseCase completeProfileUseCase;
+  final UploadImageService uploadImageService;
 
   AuthProvider({
     required this.storageService,
@@ -62,9 +64,13 @@ class AuthProvider extends ChangeNotifier {
     final result = await createAccountUseCase.call(
       UserEmailPassParms(email: email, pass: password),
     );
-    result.fold(
-      (l) {
+    await result.fold(
+      (l) async {
         isCreatingAccount = false;
+        final context = rootNavigatorKey.currentContext;
+        if (context != null) {
+          CommonSnackbar.show(context: context, message: l.message, isError: true);
+        }
         log("create account failed message :: ${l.message}");
       },
       (r) async {
@@ -75,6 +81,10 @@ class AuthProvider extends ChangeNotifier {
           userId: r.user?.uid ?? "",
         );
         isCreatingAccount = false;
+        final context = rootNavigatorKey.currentContext;
+        if (context != null) {
+          CommonSnackbar.show(context: context, message: "Account created successfully!");
+        }
       },
     );
   }
@@ -118,30 +128,38 @@ class AuthProvider extends ChangeNotifier {
     final result = await loginUseCase.call(
       UserEmailPassParms(email: email, pass: password),
     );
-    result.fold(
-      (l) {
+    await result.fold(
+      (l) async {
         isLoginAccount = false;
+        final context = rootNavigatorKey.currentContext;
+        if (context != null) {
+          CommonSnackbar.show(context: context, message: l.message, isError: true);
+        }
         log("login failed message :: ${l.message}");
       },
       (r) async {
         log("successful message :: ${r.user}");
         await checkUser(userId: r.user?.uid ?? "");
         isLoginAccount = false;
+        final context = rootNavigatorKey.currentContext;
+        if (context != null) {
+          CommonSnackbar.show(context: context, message: "Login successful!");
+        }
       },
     );
   }
 
   ///check user is already login or not
   Future<void> checkUser({required String userId}) async {
-    log("Failed to check user :: ${userId}");
+    log("Checking user :: $userId");
 
     final result = await checkUserUseCase.call(userId);
-    result.fold(
-      (l) {
+    await result.fold(
+      (l) async {
         log("Failed to check user :: ${l.message}");
       },
       (DocumentSnapshot documentSnapshot) async {
-        log("Failed to check user :: ${documentSnapshot.data()!}");
+        log("User data retrieved :: ${documentSnapshot.data()}");
 
         if (documentSnapshot.exists) {
           final ProfileModel profileModel = ProfileModel.fromMap(
@@ -168,14 +186,13 @@ class AuthProvider extends ChangeNotifier {
             }
           }
         } else {
-          log("This User is not create the account create your account");
+          log("This User does not exist in Firestore");
         }
       },
     );
   }
 
   ///complete your profile
-  final UploadImageService uploadImageService;
   bool _isUploadingImage = false;
 
   bool get isUploadingImage => _isUploadingImage;
@@ -191,18 +208,17 @@ class AuthProvider extends ChangeNotifier {
     try {
       isUploadingImage = true;
       final image = ImagePicker();
-      final fileImage = await image.pickImage(source: .gallery);
-      fileImage;
+      final fileImage = await image.pickImage(source: ImageSource.gallery);
       if (fileImage != null && fileImage.path.isNotEmpty) {
         final result = await uploadImageService.uploadImage(fileImage);
         result.fold(
           (l) {
             isUploadingImage = false;
-            log("message fail upload image :: ${l}");
+            log("Image upload failed :: $l");
           },
           (r) {
             isUploadingImage = false;
-            log("Imagev Data ::: ${r.data}");
+            log("Image Data ::: ${r.data}");
 
             imageUrl = r.data['secure_url'];
             notifyListeners();
@@ -242,16 +258,21 @@ class AuthProvider extends ChangeNotifier {
         isVerified: true,
       ),
     );
-    result.fold(
-      (l) {
+    await result.fold(
+      (l) async {
         isCompletingAccount = false;
-        log("login failed message :: ${l.message}");
+        final context = rootNavigatorKey.currentContext;
+        if (context != null) {
+          CommonSnackbar.show(context: context, message: l.message, isError: true);
+        }
+        log("Complete profile failed :: ${l.message}");
       },
       (r) async {
         isCompletingAccount = false;
-        log("successful message :: r");
+        log("Profile completed successfully");
         final context = rootNavigatorKey.currentContext;
         if (context != null) {
+          CommonSnackbar.show(context: context, message: "Profile completed successfully!");
           context.goNamed(Routes.homeScreen.name);
         }
       },
@@ -263,5 +284,35 @@ class AuthProvider extends ChangeNotifier {
     await storageService.removeValue(key: StorageKey.isLogin);
     await storageService.removeValue(key: StorageKey.userId);
     await storageService.clearStorage();
+    final context = rootNavigatorKey.currentContext;
+    if (context != null) {
+      context.goNamed(Routes.loginScreen.name);
+    }
+  }
+
+  ///forget password
+  bool _isResettingPassword = false;
+  bool get isResettingPassword => _isResettingPassword;
+
+  Future<void> forgetPassword({required String email}) async {
+    _isResettingPassword = true;
+    notifyListeners();
+
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+      final context = rootNavigatorKey.currentContext;
+      if (context != null) {
+        CommonSnackbar.show(context: context, message: "Password reset email sent!");
+        context.pop();
+      }
+    } catch (e) {
+      final context = rootNavigatorKey.currentContext;
+      if (context != null) {
+        CommonSnackbar.show(context: context, message: e.toString(), isError: true);
+      }
+    } finally {
+      _isResettingPassword = false;
+      notifyListeners();
+    }
   }
 }

@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:furniture_app/feature/home/data/model/product_model.dart';
-
+import 'package:furniture_app/feature/home/presentation/provider/favorite_provider.dart';
 import '../../constant/app_imports.dart';
 
 class CommonProductCard extends StatelessWidget {
@@ -27,45 +27,52 @@ class CommonProductCard extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            padding: .all(16.r),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               color: AppTheme.greyColor,
-              borderRadius: .circular(10.r),
+              borderRadius: BorderRadius.circular(10.r),
             ),
-            clipBehavior: .antiAlias,
+            clipBehavior: Clip.antiAlias,
             child: Stack(
               children: [
-                CachedNetworkImage(
-                  imageUrl: product.image,
-                  placeholder: (context, url) {
-                    return Image.asset(AppAssets.appLogo);
-                  },
-                  errorWidget: (context, url, error) {
-                    return Image.asset(AppAssets.appLogo);
-                  },
+                Center(
+                  child: CachedNetworkImage(
+                    imageUrl: product.image,
+                    height: 120.h,
+                    fit: BoxFit.contain,
+                    placeholder: (context, url) => Image.asset(AppAssets.appLogo, height: 100.h),
+                    errorWidget: (context, url, error) => const Icon(Icons.error),
+                  ),
                 ),
-
-                Align(
-                  alignment: .topRight,
-                  child: GestureDetector(
-                    onTap: onFavTap,
-                    child: SvgPicture.asset(AppAssets.heartIcon),
+                Positioned(
+                  top: 0,
+                  right: 0,
+                  child: Consumer<FavoriteProvider>(
+                    builder: (context, favoriteProvider, child) {
+                      final isFavorite = favoriteProvider.isFavorite(product);
+                      return GestureDetector(
+                        onTap: onFavTap,
+                        child: Icon(
+                          isFavorite ? Icons.favorite : Icons.favorite_border,
+                          color: isFavorite ? Colors.red : Colors.black54,
+                          size: 24.r,
+                        ),
+                      );
+                    },
                   ),
                 ),
               ],
             ),
           ),
-
           Gap(10.h),
-
           Row(
             children: [
               Expanded(
                 child: Text(
                   product.name,
-                  style: textTheme.bodyMedium,
+                  style: textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
                   maxLines: 1,
-                  overflow: .ellipsis,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
               SvgPicture.asset(AppAssets.ratingIcon, height: 12.h, width: 12.h),
@@ -73,27 +80,25 @@ class CommonProductCard extends StatelessWidget {
               Text(product.rating.toString(), style: textTheme.bodySmall),
             ],
           ),
-
           Gap(5.h),
-
           Row(
-            mainAxisAlignment: .spaceBetween,
-            crossAxisAlignment: .center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
                 "₹${product.price}",
-                style: textTheme.bodyMedium?.copyWith(fontWeight: .w500),
+                style: textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
               ),
-
               CommonButton(
                 text: 'Add to cart',
-                onTap: () {},
-                backgroundColor: AppTheme.greyColor,
-                width: MediaQuery.widthOf(context) / 5,
-                padding: .zero,
-                height: 25,
+                onTap: onAddToCart,
+                backgroundColor: AppTheme.primaryColor,
+                width: 80.w,
+                padding: EdgeInsets.zero,
+                height: 28.h,
                 textSize: 10.sp,
-                textColor: AppTheme.blackColor,
+                textColor: Colors.white,
+                borderRadius: 8.r,
               ),
             ],
           ),

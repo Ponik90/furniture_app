@@ -18,3 +18,4 @@ export 'package:furniture_app/core/interceptors/app_interceptors.dart';
 export 'package:dartz/dartz.dart' hide State;
 export 'package:furniture_app/core/use_case/use_case.dart';
 export 'package:furniture_app/core/utils/validators.dart';
+export 'package:furniture_app/core/common/widget/common_snackbar.dart';

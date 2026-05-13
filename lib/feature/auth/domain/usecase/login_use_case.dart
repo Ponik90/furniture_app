@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:furniture_app/core/use_case/use_case.dart';
 import 'package:furniture_app/feature/auth/domain/repository/auth_repository.dart';
 
 import '../../../../core/constant/app_imports.dart';

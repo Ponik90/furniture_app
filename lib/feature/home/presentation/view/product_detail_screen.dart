@@ -1,9 +1,12 @@
 import 'package:furniture_app/core/common/widget/common_appbar.dart';
-
+import 'package:furniture_app/feature/home/data/model/product_model.dart';
+import 'package:furniture_app/feature/home/presentation/provider/favorite_provider.dart';
+import 'package:furniture_app/feature/cart/presentation/provider/cart_provider.dart';
 import '../../../../core/constant/app_imports.dart';
 
 class ProductDetailScreen extends StatefulWidget {
-  const ProductDetailScreen({super.key});
+  final ProductModel product;
+  const ProductDetailScreen({super.key, required this.product});
 
   @override
   State<ProductDetailScreen> createState() => _ProductDetailScreenState();
@@ -13,99 +16,115 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    final product = widget.product;
+
     return Scaffold(
-      appBar: CommonAppBar(title: 'Sofa', backgroundColor: AppTheme.greyColor),
+      appBar: CommonAppBar(title: product.name, backgroundColor: AppTheme.greyColor),
       body: Column(
-        crossAxisAlignment: .center,
         children: [
           Container(
             height: MediaQuery.sizeOf(context).height / 2.5,
+            width: double.infinity,
             decoration: BoxDecoration(color: AppTheme.greyColor),
+            child: Hero(
+              tag: product.id ?? product.name,
+              child: Image.network(product.image, fit: BoxFit.contain),
+            ),
           ),
           Gap(15.h),
           Expanded(
             child: SingleChildScrollView(
-              padding: .symmetric(horizontal: 20.w),
+              padding: EdgeInsets.symmetric(horizontal: 20.w),
               child: Column(
-                crossAxisAlignment: .start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
-                    crossAxisAlignment: .center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Expanded(
                         child: Column(
-                          crossAxisAlignment: .start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Sofa darta",
-                              style: textTheme.bodyLarge?.copyWith(
-                                fontWeight: .w500,
+                              product.name,
+                              style: textTheme.headlineSmall?.copyWith(
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
+                            Gap(8.h),
                             Row(
-                              crossAxisAlignment: .center,
                               children: [
-                                SvgPicture.asset(
-                                  AppAssets.ratingIcon,
-                                  height: 20.h,
-                                  width: 20.h,
-                                ),
-                                SvgPicture.asset(
-                                  AppAssets.ratingIcon,
-                                  height: 20.h,
-                                  width: 20.h,
-                                ),
-                                SvgPicture.asset(
-                                  AppAssets.ratingIcon,
-                                  height: 20.h,
-                                  width: 20.h,
-                                ),
-                                SvgPicture.asset(
-                                  AppAssets.ratingIcon,
-                                  height: 20.h,
-                                  width: 20.h,
-                                ),
-                                SvgPicture.asset(
-                                  AppAssets.ratingIcon,
-                                  height: 20.h,
-                                  width: 20.h,
-                                  colorFilter: .mode(
-                                    AppTheme.greyColor,
-                                    .srcIn,
-                                  ),
-                                ),
-                                Gap(20.h),
-                                Text("4.5", style: textTheme.bodySmall),
+                                ...List.generate(5, (index) {
+                                  return Icon(
+                                    Icons.star,
+                                    color: index < product.rating.floor() ? Colors.amber : Colors.grey[300],
+                                    size: 20.r,
+                                  );
+                                }),
+                                Gap(10.w),
+                                Text(product.rating.toString(), style: textTheme.bodyLarge),
                               ],
                             ),
                           ],
                         ),
                       ),
-                      SvgPicture.asset(AppAssets.heartIcon),
+                      Consumer<FavoriteProvider>(
+                        builder: (context, favProvider, child) {
+                          final isFavorite = favProvider.isFavorite(product);
+                          return IconButton(
+                            icon: Icon(
+                              isFavorite ? Icons.favorite : Icons.favorite_border,
+                              color: isFavorite ? Colors.red : Colors.black54,
+                              size: 28.r,
+                            ),
+                            onPressed: () => favProvider.toggleFavorite(product),
+                          );
+                        },
+                      ),
                     ],
                   ),
-                  Gap(20.h),
-                  Text("Price", style: textTheme.bodyLarge),
-                  Gap(5.h),
-                  Text("2005", style: textTheme.bodySmall),
-                  Gap(20.h),
-                  Text("Description", style: textTheme.bodyLarge),
-                  Gap(5.h),
-                  Text("Description", style: textTheme.bodySmall),
-
-                  Gap(20.h),
-                  Row(
-                    spacing: 20.w,
-                    children: [
-                      Text("Quantity", style: textTheme.bodyLarge),
-                      Container(),
-                    ],
+                  Gap(24.h),
+                  Text("Category: ${product.category}", style: textTheme.titleMedium?.copyWith(color: Colors.grey)),
+                  Gap(16.h),
+                  Text("Price", style: textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold)),
+                  Gap(8.h),
+                  Text("₹${product.price}", style: textTheme.headlineSmall?.copyWith(color: AppTheme.primaryColor, fontWeight: FontWeight.bold)),
+                  Gap(24.h),
+                  Text("Description", style: textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold)),
+                  Gap(8.h),
+                  Text(
+                    "High-quality ${product.name} designed for comfort and style. Perfect for any modern home. Made with premium materials to ensure durability.",
+                    style: textTheme.bodyLarge?.copyWith(color: Colors.grey[700], height: 1.5),
                   ),
+                  Gap(100.h), // Space for bottom bar
                 ],
               ),
             ),
           ),
         ],
+      ),
+      bottomNavigationBar: Container(
+        padding: EdgeInsets.all(20.r),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(color: Colors.black.withValues(alpha: 0.05), blurRadius: 10, offset: const Offset(0, -5)),
+          ],
+        ),
+        child: Row(
+          children: [
+            Expanded(
+              child: CommonButton(
+                text: "Add to Cart",
+                onTap: () {
+                  context.read<CartProvider>().addToCart(product);
+                  CommonSnackbar.show(context: context, message: "Added to cart!");
+                },
+                borderRadius: 12.r,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -72,6 +72,26 @@ class Routes {
     name: _RouteName.privacyPolicyScreen,
     path: _RoutePath.privacyPolicyScreen,
   );
+  static const addProductScreen = _RouteItem(
+    name: _RouteName.addProductScreen,
+    path: _RoutePath.addProductScreen,
+  );
+  static const favoriteScreen = _RouteItem(
+    name: _RouteName.favoriteScreen,
+    path: _RoutePath.favoriteScreen,
+  );
+  static const addressListScreen = _RouteItem(
+    name: _RouteName.addressListScreen,
+    path: _RoutePath.addressListScreen,
+  );
+  static const walletScreen = _RouteItem(
+    name: _RouteName.walletScreen,
+    path: _RoutePath.walletScreen,
+  );
+  static const searchScreen = _RouteItem(
+    name: _RouteName.searchScreen,
+    path: _RoutePath.searchScreen,
+  );
 }
 
 class _RouteName {
@@ -95,6 +115,11 @@ class _RouteName {
   static const editProfileScreen = "editProfileScreen";
   static const addLocationScreen = "addLocationScreen";
   static const privacyPolicyScreen = "privacyPolicyScreen";
+  static const addProductScreen = "addProductScreen";
+  static const favoriteScreen = "favoriteScreen";
+  static const addressListScreen = "addressListScreen";
+  static const walletScreen = "walletScreen";
+  static const searchScreen = "searchScreen";
 }
 
 class _RoutePath {
@@ -119,6 +144,11 @@ class _RoutePath {
   static const editProfileScreen = "/edit-profile-screen";
   static const addLocationScreen = "/add-location-screen";
   static const privacyPolicyScreen = "/privacy-policy-screen";
+  static const addProductScreen = "/add-product-screen";
+  static const favoriteScreen = "/favorite-screen";
+  static const addressListScreen = "/address-list-screen";
+  static const walletScreen = "/wallet-screen";
+  static const searchScreen = "/search-screen";
 }
 
 class _RouteItem {

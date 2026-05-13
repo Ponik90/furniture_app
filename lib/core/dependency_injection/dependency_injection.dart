@@ -23,6 +23,11 @@ import 'package:furniture_app/feature/profile/data/repository_impl/profile_repos
 import 'package:furniture_app/feature/profile/domain/use_case/get_profile_use_case.dart';
 import 'package:furniture_app/feature/profile/domain/use_case/update_profile_use_case.dart';
 import 'package:furniture_app/feature/profile/presentation/provider/profile_provider.dart';
+import 'package:furniture_app/feature/cart/presentation/provider/cart_provider.dart';
+import 'package:furniture_app/feature/home/presentation/provider/favorite_provider.dart';
+import 'package:furniture_app/feature/home/presentation/provider/search_provider.dart';
+import 'package:furniture_app/feature/profile/presentation/provider/address_provider.dart';
+import 'package:furniture_app/feature/profile/presentation/provider/wallet_provider.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -39,9 +44,11 @@ class DependencyInjection {
     _initBottomNavigation();
     _initAuth();
     _initHome();
-    // 👉 later:
-    // _initProduct();
-    // _initCart();
+    _initFavorite();
+    _initCart();
+    _initAddress();
+    _initWallet();
+    _initSearch();
     _initProfile();
   }
 
@@ -198,5 +205,25 @@ class DependencyInjection {
         updateProfileUseCase: getIt<UpdateProfileUseCase>(),
       ),
     );
+  }
+
+  static void _initCart() {
+    getIt.registerFactory<CartProvider>(() => CartProvider());
+  }
+
+  static void _initFavorite() {
+    getIt.registerFactory<FavoriteProvider>(() => FavoriteProvider());
+  }
+
+  static void _initAddress() {
+    getIt.registerFactory<AddressProvider>(() => AddressProvider());
+  }
+
+  static void _initWallet() {
+    getIt.registerFactory<WalletProvider>(() => WalletProvider());
+  }
+
+  static void _initSearch() {
+    getIt.registerFactory<SearchProvider>(() => SearchProvider());
   }
 }
