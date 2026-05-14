@@ -13,6 +13,16 @@ class AddressProvider extends ChangeNotifier {
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
+  AddressModel? _selectedAddress;
+  AddressModel? get selectedAddress => _selectedAddress;
+
+  static const int maxAddresses = 7;
+
+  void selectAddress(AddressModel address) {
+    _selectedAddress = address;
+    notifyListeners();
+  }
+
   Future<void> fetchAddresses() async {
     final user = _auth.currentUser;
     if (user == null) return;
@@ -41,6 +51,10 @@ class AddressProvider extends ChangeNotifier {
   Future<void> addAddress(AddressModel address) async {
     final user = _auth.currentUser;
     if (user == null) return;
+
+    if (_addresses.length >= maxAddresses) {
+      throw Exception("Maximum address limit reached ($maxAddresses)");
+    }
 
     try {
       await _firestore

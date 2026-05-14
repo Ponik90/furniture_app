@@ -1,7 +1,9 @@
 import '../../constant/app_imports.dart';
 
 class CommonSocialLoginButtonWidget extends StatelessWidget {
-  const CommonSocialLoginButtonWidget({super.key});
+  final VoidCallback? onGoogleTap;
+  final VoidCallback? onAppleTap;
+  const CommonSocialLoginButtonWidget({super.key, this.onGoogleTap, this.onAppleTap});
 
   @override
   Widget build(BuildContext context) {
@@ -13,16 +15,19 @@ class CommonSocialLoginButtonWidget extends StatelessWidget {
         spacing: 20.w,
 
         children: [
-          Container(
-            padding: .all(10.r),
-            decoration: BoxDecoration(
-              color: AppTheme.greyColor,
-              shape: .circle,
-            ),
-            child: SvgPicture.asset(
-              AppAssets.googleIcon,
-              height: 24.h,
-              width: 24.h,
+          GestureDetector(
+            onTap: onGoogleTap,
+            child: Container(
+              padding: .all(10.r),
+              decoration: BoxDecoration(
+                color: AppTheme.greyColor,
+                shape: .circle,
+              ),
+              child: SvgPicture.asset(
+                AppAssets.googleIcon,
+                height: 24.h,
+                width: 24.h,
+              ),
             ),
           ),
           Container(

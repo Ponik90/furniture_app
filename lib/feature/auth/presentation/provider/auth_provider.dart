@@ -12,6 +12,7 @@ import 'package:furniture_app/feature/auth/domain/usecase/create_user_use_case.d
 import 'package:furniture_app/feature/auth/domain/usecase/login_use_case.dart';
 import 'package:furniture_app/feature/profile/data/model/profile_model.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthProvider extends ChangeNotifier {
   final StorageService storageService;
@@ -69,7 +70,11 @@ class AuthProvider extends ChangeNotifier {
         isCreatingAccount = false;
         final context = rootNavigatorKey.currentContext;
         if (context != null) {
-          CommonSnackbar.show(context: context, message: l.message, isError: true);
+          CommonSnackbar.show(
+            context: context,
+            message: l.message,
+            isError: true,
+          );
         }
         log("create account failed message :: ${l.message}");
       },
@@ -83,7 +88,10 @@ class AuthProvider extends ChangeNotifier {
         isCreatingAccount = false;
         final context = rootNavigatorKey.currentContext;
         if (context != null) {
-          CommonSnackbar.show(context: context, message: "Account created successfully!");
+          CommonSnackbar.show(
+            context: context,
+            message: "Account created successfully!",
+          );
         }
       },
     );
@@ -133,7 +141,11 @@ class AuthProvider extends ChangeNotifier {
         isLoginAccount = false;
         final context = rootNavigatorKey.currentContext;
         if (context != null) {
-          CommonSnackbar.show(context: context, message: l.message, isError: true);
+          CommonSnackbar.show(
+            context: context,
+            message: l.message,
+            isError: true,
+          );
         }
         log("login failed message :: ${l.message}");
       },
@@ -147,6 +159,63 @@ class AuthProvider extends ChangeNotifier {
         }
       },
     );
+  }
+
+  Future<void> signInWithGoogle() async {
+    isLoginAccount = true;
+    try {
+      // Use GoogleSignIn.instance.authenticate() for v7.0.0+
+      final GoogleSignInAccount googleUser = await GoogleSignIn.instance
+          .authenticate();
+
+      final GoogleSignInAuthentication googleAuth = googleUser.authentication;
+
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        idToken: googleAuth.idToken,
+      );
+
+      final UserCredential userCredential = await FirebaseAuth.instance
+          .signInWithCredential(credential);
+      final User? user = userCredential.user;
+
+      if (user != null) {
+        log("Google Sign-In successful :: ${user.uid}");
+
+        final result = await checkUserUseCase.call(user.uid);
+        await result.fold(
+          (l) async {
+            await _createUser(
+              email: user.email ?? "",
+              name: user.displayName ?? "",
+              userId: user.uid,
+            );
+          },
+          (DocumentSnapshot doc) async {
+            if (doc.exists) {
+              await checkUser(userId: user.uid);
+            } else {
+              await _createUser(
+                email: user.email ?? "",
+                name: user.displayName ?? "",
+                userId: user.uid,
+              );
+            }
+          },
+        );
+      }
+    } catch (e) {
+      log("Google Sign-In error :: $e");
+      final context = rootNavigatorKey.currentContext;
+      if (context != null) {
+        CommonSnackbar.show(
+          context: context,
+          message: "Google Sign-In failed",
+          isError: true,
+        );
+      }
+    } finally {
+      isLoginAccount = false;
+    }
   }
 
   ///check user is already login or not
@@ -263,7 +332,11 @@ class AuthProvider extends ChangeNotifier {
         isCompletingAccount = false;
         final context = rootNavigatorKey.currentContext;
         if (context != null) {
-          CommonSnackbar.show(context: context, message: l.message, isError: true);
+          CommonSnackbar.show(
+            context: context,
+            message: l.message,
+            isError: true,
+          );
         }
         log("Complete profile failed :: ${l.message}");
       },
@@ -272,7 +345,10 @@ class AuthProvider extends ChangeNotifier {
         log("Profile completed successfully");
         final context = rootNavigatorKey.currentContext;
         if (context != null) {
-          CommonSnackbar.show(context: context, message: "Profile completed successfully!");
+          CommonSnackbar.show(
+            context: context,
+            message: "Profile completed successfully!",
+          );
           context.goNamed(Routes.homeScreen.name);
         }
       },
@@ -292,6 +368,7 @@ class AuthProvider extends ChangeNotifier {
 
   ///forget password
   bool _isResettingPassword = false;
+
   bool get isResettingPassword => _isResettingPassword;
 
   Future<void> forgetPassword({required String email}) async {
@@ -302,13 +379,20 @@ class AuthProvider extends ChangeNotifier {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
       final context = rootNavigatorKey.currentContext;
       if (context != null) {
-        CommonSnackbar.show(context: context, message: "Password reset email sent!");
+        CommonSnackbar.show(
+          context: context,
+          message: "Password reset email sent!",
+        );
         context.pop();
       }
     } catch (e) {
       final context = rootNavigatorKey.currentContext;
       if (context != null) {
-        CommonSnackbar.show(context: context, message: e.toString(), isError: true);
+        CommonSnackbar.show(
+          context: context,
+          message: e.toString(),
+          isError: true,
+        );
       }
     } finally {
       _isResettingPassword = false;

@@ -4,6 +4,12 @@ import '../../../home/data/model/product_model.dart';
 import '../../data/model/cart_model.dart';
 import '../provider/cart_provider.dart';
 import 'widget/cart_remove_dialog.dart';
+import 'package:furniture_app/core/services/payment_service/razorpay_service.dart';
+import 'package:furniture_app/feature/order/presentation/provider/order_provider.dart';
+import 'package:furniture_app/feature/order/data/model/order_model.dart';
+import 'package:furniture_app/feature/profile/presentation/provider/profile_provider.dart';
+import 'package:furniture_app/feature/profile/presentation/provider/address_provider.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -13,6 +19,58 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
+  late RazorpayService _razorpayService;
+
+  @override
+  void initState() {
+    super.initState();
+    _razorpayService = RazorpayService(
+      onSuccess: _handlePaymentSuccess,
+      onFailure: _handlePaymentError,
+      onExternalWallet: _handleExternalWallet,
+    );
+  }
+
+  @override
+  void dispose() {
+    _razorpayService.clear();
+    super.dispose();
+  }
+
+  void _handlePaymentSuccess(PaymentSuccessResponse response) async {
+    final cartProvider = context.read<CartProvider>();
+    final orderProvider = context.read<OrderProvider>();
+    
+    final newOrder = OrderModel(
+      items: List.from(cartProvider.items),
+      totalAmount: cartProvider.total,
+      orderDate: DateTime.now(),
+      paymentId: response.paymentId ?? "",
+    );
+
+    final success = await orderProvider.placeOrder(newOrder);
+    if (success) {
+      cartProvider.clearCart();
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Order placed successfully!")),
+        );
+        context.goNamed(Routes.orderScreen.name);
+      }
+    }
+  }
+
+  void _handlePaymentError(PaymentFailureResponse response) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text("Payment failed: ${response.message}")),
+    );
+  }
+
+  void _handleExternalWallet(ExternalWalletResponse response) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text("External wallet selected: ${response.walletName}")),
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,8 +130,12 @@ class _CartScreenState extends State<CartScreen> {
                   separatorBuilder: (context, index) => Gap(16.h),
                   itemBuilder: (context, index) {
                     final item = items[index];
-                    return Container(
-                      padding: EdgeInsets.all(12.r),
+                    return GestureDetector(
+                      onTap: () {
+                        context.pushNamed(Routes.productDetailScreen.name, extra: item.product);
+                      },
+                      child: Container(
+                        padding: EdgeInsets.all(12.r),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(16.r),
@@ -177,8 +239,9 @@ class _CartScreenState extends State<CartScreen> {
                           ),
                         ],
                       ),
-                    );
-                  },
+                    ),
+                  );
+                },
                 ),
               ),
               _buildCheckoutSection(cartProvider),
@@ -201,7 +264,12 @@ class _CartScreenState extends State<CartScreen> {
 
   Widget _buildCheckoutSection(CartProvider cartProvider) {
     return Container(
-      padding: EdgeInsets.all(24.r),
+      padding: EdgeInsets.only(
+        left: 24.r,
+        right: 24.r,
+        top: 24.r,
+        bottom: 24.r + MediaQuery.viewPaddingOf(context).bottom,
+      ),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.vertical(top: Radius.circular(30.r)),
@@ -231,7 +299,24 @@ class _CartScreenState extends State<CartScreen> {
           CommonButton(
             text: "Checkout",
             onTap: () {
-              // TODO: Implement Checkout logic
+              final addressProvider = context.read<AddressProvider>();
+              if (addressProvider.selectedAddress == null) {
+                CommonSnackbar.show(
+                  context: context, 
+                  message: "Please select a shipping address first",
+                  isError: true,
+                );
+                context.pushNamed(Routes.addressListScreen.name);
+                return;
+              }
+
+              final profile = context.read<ProfileProvider>().profileData;
+              _razorpayService.openCheckout(
+                amount: cartProvider.total,
+                contact: profile.number ?? "",
+                email: profile.email ?? "",
+                description: "Purchase from Furniture App",
+              );
             },
             borderRadius: 30.r,
             height: 55.h,

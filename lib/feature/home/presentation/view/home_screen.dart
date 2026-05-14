@@ -3,6 +3,7 @@ import 'package:furniture_app/core/common/widget/common_product_card.dart';
 import 'package:furniture_app/core/constant/app_imports.dart';
 import 'package:furniture_app/feature/home/presentation/provider/home_provider.dart';
 import 'package:furniture_app/feature/home/presentation/provider/favorite_provider.dart';
+import 'package:furniture_app/feature/home/presentation/provider/search_provider.dart';
 import 'package:furniture_app/feature/cart/presentation/provider/cart_provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -66,29 +67,36 @@ class _HomeScreenState extends State<HomeScreen> {
                     mainAxisSpacing: 20.h,
                   ),
                   itemBuilder: (context, index) {
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      spacing: 10.h,
-                      children: [
-                        Container(
-                          padding: EdgeInsets.all(12.r),
-                          decoration: BoxDecoration(
-                            color: AppTheme.greyColor,
-                            shape: BoxShape.circle,
+                    final category = homeProvider.categoryList[index];
+                    return GestureDetector(
+                      onTap: () {
+                        context.read<SearchProvider>().setFilters(category: category.name);
+                        context.pushNamed(Routes.searchScreen.name);
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        spacing: 10.h,
+                        children: [
+                          Container(
+                            padding: EdgeInsets.all(12.r),
+                            decoration: const BoxDecoration(
+                              color: AppTheme.greyColor,
+                              shape: BoxShape.circle,
+                            ),
+                            child: SvgPicture.asset(
+                              category.icon,
+                              height: 24.h,
+                              width: 24.h,
+                            ),
                           ),
-                          child: SvgPicture.asset(
-                            homeProvider.categoryList[index].icon,
-                            height: 24.h,
-                            width: 24.h,
+                          Text(
+                            category.name,
+                            style: textTheme.bodyMedium,
                           ),
-                        ),
-                        Text(
-                          homeProvider.categoryList[index].name,
-                          style: textTheme.bodyMedium,
-                        ),
-                      ],
+                        ],
+                      ),
                     );
                   },
                 ),

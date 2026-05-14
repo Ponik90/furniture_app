@@ -165,8 +165,8 @@ class AppRoutes {
           StatefulShellBranch(
             routes: [
               GoRoute(
-                name: Routes.productScreen.name,
-                path: Routes.productScreen.path,
+                name: Routes.orderScreen.name,
+                path: Routes.orderScreen.path,
                 builder: (context, state) => OrderScreen(),
               ),
             ],

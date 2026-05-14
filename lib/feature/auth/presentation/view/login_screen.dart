@@ -117,7 +117,11 @@ class _LoginScreenState extends State<LoginScreen> with ValidatorsMixin {
                   Gap(20.h),
                   ContinueWithDivider(),
                   Gap(20.h),
-                  CommonSocialLoginButtonWidget(),
+                  CommonSocialLoginButtonWidget(
+                    onGoogleTap: () {
+                      authProvider.signInWithGoogle();
+                    },
+                  ),
 
                   Gap(40.h),
                   GestureDetector(

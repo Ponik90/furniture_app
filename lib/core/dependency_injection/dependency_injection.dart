@@ -28,6 +28,7 @@ import 'package:furniture_app/feature/home/presentation/provider/favorite_provid
 import 'package:furniture_app/feature/home/presentation/provider/search_provider.dart';
 import 'package:furniture_app/feature/profile/presentation/provider/address_provider.dart';
 import 'package:furniture_app/feature/profile/presentation/provider/wallet_provider.dart';
+import 'package:furniture_app/feature/order/presentation/provider/order_provider.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -50,6 +51,7 @@ class DependencyInjection {
     _initWallet();
     _initSearch();
     _initProfile();
+    _initOrder();
   }
 
   // =========================
@@ -225,5 +227,9 @@ class DependencyInjection {
 
   static void _initSearch() {
     getIt.registerFactory<SearchProvider>(() => SearchProvider());
+  }
+
+  static void _initOrder() {
+    getIt.registerFactory<OrderProvider>(() => OrderProvider());
   }
 }

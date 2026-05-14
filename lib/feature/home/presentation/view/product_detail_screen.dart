@@ -104,7 +104,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         ],
       ),
       bottomNavigationBar: Container(
-        padding: EdgeInsets.all(20.r),
+        padding: EdgeInsets.only(
+          left: 20.r,
+          right: 20.r,
+          top: 20.r,
+          bottom: 20.r + MediaQuery.viewPaddingOf(context).bottom,
+        ),
         decoration: BoxDecoration(
           color: Colors.white,
           boxShadow: [

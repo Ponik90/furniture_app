@@ -43,9 +43,9 @@ class Routes {
     path: _RoutePath.homeScreen,
   );
 
-  static const productScreen = _RouteItem(
-    name: _RouteName.productScreen,
-    path: _RoutePath.productScreen,
+  static const orderScreen = _RouteItem(
+    name: _RouteName.orderScreen,
+    path: _RoutePath.orderScreen,
   );
 
   static const cartScreen = _RouteItem(
@@ -107,7 +107,7 @@ class _RouteName {
   static const confirmOtpScreen = "confirmOtpScreen";
 
   static const homeScreen = "homeScreen";
-  static const productScreen = "productScreen";
+  static const orderScreen = "orderScreen";
   static const cartScreen = "cartScreen";
   static const profileScreen = "profileScreen";
 
@@ -136,7 +136,7 @@ class _RoutePath {
   static const completeProfileScreen = "/complete-profile-screen";
 
   static const homeScreen = "/home-screen";
-  static const productScreen = "/product-screen";
+  static const orderScreen = "/order-screen";
   static const cartScreen = "/cart-screen";
   static const profileScreen = "/profile-screen";
 

@@ -1,5 +1,6 @@
 import 'package:furniture_app/core/common/widget/common_appbar.dart';
 import 'package:furniture_app/core/constant/app_imports.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../provider/address_provider.dart';
 import '../../data/model/address_model.dart';
 
@@ -13,11 +14,14 @@ class AddLocationScreen extends StatefulWidget {
 class _AddLocationScreenState extends State<AddLocationScreen> {
   final _nameController = TextEditingController();
   final _detailsController = TextEditingController();
+  LatLng _selectedLocation = const LatLng(21.1702, 72.8311); // Default: Surat, India
+  GoogleMapController? _mapController;
 
   @override
   void dispose() {
     _nameController.dispose();
     _detailsController.dispose();
+    _mapController?.dispose();
     super.dispose();
   }
 
@@ -26,38 +30,49 @@ class _AddLocationScreenState extends State<AddLocationScreen> {
     return Scaffold(
       appBar: const CommonAppBar(
         title: "Add New Address",
-        showAction: true,
-        actionIcon: AppAssets.heartIcon,
+        showAction: false,
       ),
       body: Column(
         children: [
-          // Map Placeholder
+          // Google Map
           Expanded(
             flex: 4,
-            child: Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: Colors.grey[300],
-                image: const DecorationImage(
-                  image: NetworkImage('https://miro.medium.com/v2/resize:fit:1400/1*q69_8p276u3HqX-T2yWInw.png'),
-                  fit: BoxFit.cover,
+            child: Stack(
+              children: [
+                GoogleMap(
+                  initialCameraPosition: CameraPosition(
+                    target: _selectedLocation,
+                    zoom: 15,
+                  ),
+                  onMapCreated: (controller) => _mapController = controller,
+                  onCameraMove: (position) {
+                    _selectedLocation = position.target;
+                  },
+                  myLocationEnabled: true,
+                  myLocationButtonEnabled: true,
+                  zoomControlsEnabled: false,
                 ),
-              ),
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  Icon(Icons.location_on, color: AppTheme.primaryColor, size: 40.sp),
-                ],
-              ),
+                Center(
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: 40.h),
+                    child: Icon(Icons.location_on, color: AppTheme.primaryColor, size: 40.sp),
+                  ),
+                ),
+              ],
             ),
           ),
           
-          // Address Details Bottom Sheet Style Container
+          // Address Details
           Expanded(
             flex: 6,
             child: Container(
               width: double.infinity,
-              padding: EdgeInsets.all(24.r),
+              padding: EdgeInsets.only(
+                left: 24.r,
+                right: 24.r,
+                top: 24.r,
+                bottom: 24.r + MediaQuery.viewPaddingOf(context).bottom,
+              ),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.vertical(top: Radius.circular(30.r)),
@@ -94,7 +109,7 @@ class _AddLocationScreenState extends State<AddLocationScreen> {
                     ),
                     Gap(30.h),
                     Text(
-                      "Name Address",
+                      "Address Nickname",
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
@@ -102,13 +117,13 @@ class _AddLocationScreenState extends State<AddLocationScreen> {
                     Gap(12.h),
                     CommonTextFormField(
                       controller: _nameController,
-                      hintText: "e.g. Home, Apartment",
+                      hintText: "e.g. Home, Office, Apartment",
                       isFilled: true,
                       fillColor: AppTheme.greyLightColor.withValues(alpha: 0.5),
                     ),
                     Gap(24.h),
                     Text(
-                      "Address Details",
+                      "Full Address",
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
@@ -116,35 +131,39 @@ class _AddLocationScreenState extends State<AddLocationScreen> {
                     Gap(12.h),
                     CommonTextFormField(
                       controller: _detailsController,
-                      hintText: "Enter full address",
+                      hintText: "Enter full address details",
                       isFilled: true,
                       fillColor: AppTheme.greyLightColor.withValues(alpha: 0.5),
                       suffixIcon: const Icon(Icons.location_on, color: Colors.black),
                     ),
                     Gap(40.h),
                     CommonButton(
-                      text: "Add",
+                      text: "Save Address",
                       onTap: () async {
                         if (_nameController.text.isNotEmpty && _detailsController.text.isNotEmpty) {
                           final address = AddressModel(
                             name: _nameController.text,
                             addressDetails: _detailsController.text,
-                            latitude: 0.0, // Mocked
-                            longitude: 0.0, // Mocked
+                            latitude: _selectedLocation.latitude,
+                            longitude: _selectedLocation.longitude,
                           );
                           
                           try {
                             await context.read<AddressProvider>().addAddress(address);
-                            if (context.mounted) {
+                            if (mounted) {
                               context.pop();
                             }
                           } catch (e) {
-                            if (context.mounted) {
+                            if (mounted) {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text("Error: $e")),
+                                SnackBar(content: Text(e.toString())),
                               );
                             }
                           }
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text("Please fill all fields")),
+                          );
                         }
                       },
                       borderRadius: 30.r,
